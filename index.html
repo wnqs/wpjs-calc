@@ -1841,27 +1841,28 @@ document.getElementById('screenshotBtn').addEventListener('click', function() {
 outputArea.style.display = 'block';
 outputArea.style.margin = '0 auto';
 outputArea.style.width = '100%';
-  // 用 html2canvas 截图
-  html2canvas(outputArea, {
-    scale: 2,
-    backgroundColor: '#0e1327',
-    allowTaint: false,
-    useCORS: true,
-    logging: false,
-    width: outputArea.scrollWidth,
-    height: outputArea.scrollHeight,
-    windowWidth: outputArea.scrollWidth,
-    windowHeight: outputArea.scrollHeight
-  }).then(canvas => {
-    // 恢复折叠状态
-    detailContents.forEach((el, index) => {
-      if (!expandedStates[index]) {
-        el.classList.remove('show');
-        if (detailToggles[index]) {
-          detailToggles[index].textContent = '▼ 查看详情';
-        }
+
+// 用 html2canvas 截图
+html2canvas(outputArea, {
+  scale: 2,
+  backgroundColor: '#0e1327',
+  allowTaint: false,
+  useCORS: true,
+  logging: false,
+  width: outputArea.offsetWidth,
+  height: outputArea.offsetHeight,
+  windowWidth: outputArea.offsetWidth,
+  windowHeight: outputArea.offsetHeight
+}).then(canvas => {
+  // 恢复折叠状态
+  detailContents.forEach((el, index) => {
+    if (!expandedStates[index]) {
+      el.classList.remove('show');
+      if (detailToggles[index]) {
+        detailToggles[index].textContent = '▼ 查看详情';
       }
-    });
+    }
+  });
     
     // ===== 文件名绑定车辆名（去掉括号后缀） =====
     const vehicleSelect = document.getElementById('vehicleSelect');

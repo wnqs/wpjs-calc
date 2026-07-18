@@ -692,7 +692,7 @@
 
     let startPart = 0;
     if (isFirst) {
-      startPart = start + startExtra;
+      startPart = start + startExtra* antiFactor * effFactor;
     }
 
     let total = prevSurplus + startPart + nitroPart + vehiclePart + energPart + xianJiPart + tuanPart + liexinTerm;

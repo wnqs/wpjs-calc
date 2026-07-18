@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>王牌竞速芯片计算器 · 全网最详细</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0b0e1a;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      color: #e8edf5;
+      padding: 1rem 1rem 3rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .header-main {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.9rem;
+      color: white;
+      background: linear-gradient(135deg, #2b2f4a, #1b1e30);
+      padding: 0.8rem 0.5rem;
+      border-radius: 32px;
+      margin-bottom: 0.25rem;
+    }
+    .sub-header {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #ff7b7b;
+      background: rgba(20,25,45,0.7);
+      padding: 0.3rem 0.5rem;
+      border-radius: 30px;
+      margin: 0.2rem 0 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.4rem 0.8rem;
+    }
+    .guide-toggle {
+      background: #f5c542;
+      color: #1a1e2f;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 0.6rem 1rem;
+      border-radius: 40px;
+      margin: 0.5rem 0 0.8rem;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      width: 100%;
+    }
+    .guide-toggle:hover { background: #ffd966; }
+    .guide-dropdown {
+      background: #1d2238;
+      border-radius: 24px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      border-left: 5px solid #f5c542;
+      display: none;
+    }
+    .guide-dropdown.show { display: block; }
+    .guide-dropdown ul { padding-left: 1.2rem; list-style-type: '• '; }
+    .search-section {
+      background: #171d31;
+      border-radius: 40px;
+      padding: 0.8rem 1.2rem;
+      margin: 1.2rem 0 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 0.8rem;
+      border: 1px solid #3d4562;
+    }
+    .search-section label { font-weight: 600; color: #bcc6e6; font-size: 0.95rem; }
+    .search-section input {
+      flex: 2 1 200px;
+      background: #0b0f1f;
+      color: white;
+      border: 1px solid #4b5378;
+      border-radius: 40px;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .search-section input:focus { border-color: #f5c542; }
+    .search-section select {
+      flex: 2 1 200px;
+      background: #0b0f1f;
+      color: white;
+      border: 1px solid #4b5378;
+      border-radius: 40px;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      outline: none;
+      cursor: pointer;
+    }
+    .search-section select:focus { border-color: #f5c542; }
+    .tag {
+      background: #2d3557;
+      border-radius: 30px;
+      padding: 0.2rem 0.8rem;
+      font-size: 0.8rem;
+      color: #bcc6e6;
+    }
+    .calc-area {
+      background: #121729;
+      border-radius: 32px;
+      padding: 1.2rem 1rem;
+      margin: 1.2rem 0;
+      border: 1px solid #303753;
+      position: relative;
+    }
+    .calc-area .area-actions {
+      position: absolute;
+      top: 0.8rem;
+      right: 1rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .calc-area .area-actions .btn-sm {
+      background: #3a3f62;
+      border: none;
+      border-radius: 30px;
+      padding: 0.1rem 0.7rem;
+      font-size: 0.7rem;
+      color: #e8edf5;
+      cursor: pointer;
+    }
+    .calc-area .area-actions .btn-sm:hover { background: #5a5f8a; }
+    .calc-area .area-actions .btn-danger { background: #8a2a3a; }
+    .calc-area .area-actions .btn-danger:hover { background: #b33a4a; }
+    .grid-2col {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.6rem 1rem;
+    }
+    .field { display: flex; flex-direction: column; gap: 0.15rem; margin-bottom: 0.15rem; }
+    .field label { font-size: 0.78rem; font-weight: 500; color: #b0bce6; display: flex; align-items: center; gap: 4px; }
+    .field input, .field select {
+      background: #0d1225;
+      border: 1px solid #333c5c;
+      border-radius: 30px;
+      padding: 0.35rem 0.8rem;
+      color: white;
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+    }
+.float-tip {
+  font-size: 0.7rem;
+  color: #f5c542;
+  margin-top: 2px;
+  background: rgba(245, 197, 66, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border-left: 2px solid #f5c542;
+  display: inline-block;
+}
+    .field input:focus, .field select:focus { border-color: #f5c542; }
+    .field input[type="number"] { -moz-appearance: textfield; }
+    .section-title {
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #f5c542;
+      margin: 0 0 0.8rem 0;
+      border-bottom: 1px dashed #3d4562;
+      padding-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .section-title .badge {
+      font-size: 0.7rem;
+      background: #2d3557;
+      padding: 0.1rem 0.6rem;
+      border-radius: 30px;
+      color: #bcc6e6;
+      font-weight: 400;
+    }
+    .btn {
+      background: #2e3657;
+      border: none;
+      border-radius: 60px;
+      padding: 0.6rem 1.2rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      font-size: 0.9rem;
+      border: 1px solid #4c5680;
+      transition: 0.15s;
+    }
+    .btn-primary { background: #f5c542; color: #121729; border: none; font-weight: 700; }
+    .btn-primary:hover { background: #ffd966; }
+    .btn-success { background: #2d8a4e; border-color: #3a9f5e; }
+    .btn-success:hover { background: #3aab5e; }
+    .btn-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 0.8rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.btn-group .btn {
+  text-align: center;
+  justify-content: center;
+  padding: 0.6rem 0.5rem;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+    .output-area {
+      background: #0e1327;
+      border-radius: 28px;
+      padding: 1.2rem;
+      margin: 1.5rem 0;
+      border: 1px solid #39405e;
+    }
+    .output-summary {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #f5e6b0;
+      background: #1e2642;
+      padding: 0.5rem 1rem;
+      border-radius: 60px;
+      margin-bottom: 1rem;
+    }
+    .output-block {
+      background: #1a213a;
+      border-radius: 18px;
+      padding: 0.5rem 1rem;
+      margin: 0.4rem 0;
+      border-left: 4px solid #f5c542;
+    }
+    .output-block .flex-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.3rem 0.8rem;
+    }
+    .detail-toggle {
+      background: #222b48;
+      border-radius: 40px;
+      padding: 0.15rem 0.8rem;
+      font-size: 0.75rem;
+      color: #bcc6e6;
+      border: 1px solid #414b70;
+      cursor: pointer;
+      user-select: none;
+    }
+    .detail-toggle:hover { background: #2f3857; }
+    .detail-content {
+      font-size: 0.82rem;
+      background: #0d1327;
+      padding: 0.6rem 0.8rem;
+      border-radius: 12px;
+      margin-top: 0.4rem;
+      border: 1px solid #2f3857;
+      white-space: pre-wrap;
+      word-break: break-word;
+      display: none;
+      font-family: 'Consolas', 'Courier New', monospace;
+      color: #c8d0e8;
+      line-height: 1.7;
+    }
+    .detail-content.show { display: block; }
+    .text-gold { color: #f5c542; }
+    .text-green { color: #6fcf97; }
+    .text-red { color: #f28b82; }
+    .text-small { font-size: 0.75rem; }
+    .text-muted { color: #8892b0; }
+    .copy-area-section {
+      background: #1a1f38;
+      border-radius: 24px;
+      padding: 1.2rem;
+      margin: 1.2rem 0;
+      border: 1px dashed #4b5680;
+    }
+    .copy-area-section .flex-wrap { gap: 0.5rem 1rem; align-items: center; }
+    .copy-area-section input {
+      background: #0d1225;
+      border: 1px solid #333c5c;
+      border-radius: 30px;
+      padding: 0.4rem 0.8rem;
+      color: white;
+      width: 80px;
+      text-align: center;
+    }
+    .combination-result {
+      background: #1e2642;
+      border-radius: 16px;
+      padding: 0.8rem 1rem;
+      margin: 0.5rem 0;
+      border: 1px solid #3d4562;
+    }
+    .combination-result .label { color: #b0bce6; font-weight: 500; }
+    .combination-result .value { color: #f5c542; font-weight: 700; font-size: 1.1rem; }
+    .calc-area-collapsible {
+      background: #121729;
+      border-radius: 32px;
+      padding: 0.8rem 1rem;
+      margin: 1.2rem 0;
+      border: 1px solid #303753;
+    }
+    .collapsible-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .collapsible-header:hover { opacity: 0.8; }
+    .collapse-arrow {
+      color: #f5c542;
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+    }
+    .collapse-arrow.collapsed { transform: rotate(-90deg); }
+   .collapsible-body {
+  overflow: hidden;
+  display: block;
+}
+.collapsible-body.hidden {
+  display: none;
+}
+    .collapsible-body.hidden {
+      max-height: 0;
+      padding-top: 0;
+      margin-top: 0;
+    }
+    .collapsible-body.hidden .calc-area {
+      margin-top: 0 !important;
+      padding: 0 0.5rem;
+    }
+    @media (max-width: 500px) {
+      .grid-2col { grid-template-columns: 1fr 1fr; }
+      .header-main { font-size: 1.4rem; }
+      .calc-area .area-actions { position: static; margin-top: 0.5rem; justify-content: flex-end; }
+    }
+  </style>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+
+<div class="header-main">王牌竞速芯片计算器—全面模拟实战（全网最详细版）</div>
+<div class="sub-header">
+  <span>抖音搜 勿念情伤</span>
+  <span>主页加群交流</span>
+  <span>反馈bug与建议</span>
+</div>
+
+<button class="guide-toggle" id="guideToggle">使用指南（使用前必看） ▼</button>
+<div class="guide-dropdown" id="guideDropdown">
+  <ul>
+    <li>原先计算器界面代码有点乱，不好改，就放那留个纪念吧，这个计算器底层逻辑完全符合王牌，不走捷径，界面相对简单一点，方便后续维护</li>
+    <li><span style="color:#ff4444;font-weight:bold;">注意：先机、汇能、团魂为空时会自动计算对应数据，只要有数据填入就会带入计算</li>
+    <li>有些固定充能我已经默认填入了，不需要手动更改，浮动充能类似于迈凯伦 Senna 的每秒自充能2%或者循环装置的13%能量，都需要手动选择或填入具体数值才行</li>
+    <li>后续使用逻辑会持续优化</li>
+    <li>有任何使用该网站和游戏内芯片上的问题都可以私信我，全网同名：<span style="color:#ff4444;font-weight:bold;">@勿念情伤</li>
+    <li>抖音和快手主页有粉丝群，欢迎进入交流讨论，群不定时发爆料</li>
+  </ul>
+</div>
+
+<!-- 车辆搜索 -->
+<div class="search-section">
+  <label>车辆搜索</label>
+  <input type="text" id="vehicleSearchInput" placeholder="输入中文名/拼音/简称...">
+  <select id="vehicleSelect"></select>
+  <span class="tag" id="vehicleChips">芯片槽: -</span>
+</div>
+
+<!-- 首大 -->
+<div class="calc-area-collapsible">
+  <div class="collapsible-header" onclick="toggleCollapsible(this)">
+    <span class="section-title" style="margin-bottom:0;border-bottom:none;cursor:pointer;">首大开启前计算区域 <span class="badge">固定</span></span>
+    <span class="collapse-arrow">▼</span>
+  </div>
+  <div class="collapsible-body">
+    <div class="calc-area" id="areaFirst" style="margin-top:0.5rem;">
+      <div class="grid-2col">
+        <div class="field"><label>汇能% <span class="text-small">(空则计算)</span></label><input type="number" step="0.25" id="huiNeng" placeholder="自动"></div>
+        <div class="field"><label>先机% <span class="text-small">(空则计算)</span></label><input type="number" step="0.1" id="xianJi" placeholder="自动"></div>
+        <div class="field"><label>起步充能%</label><input type="text" id="startCharge" readonly></div>
+        <div class="field"><label>氮气充能%</label><input type="text" id="nitroCharge" readonly></div>
+        <div class="field"><label>大招能量</label><input type="number" id="ultEnergy" step="1" value="100"></div>
+        <div class="field"><label>是否专精</label><select id="zhuanjing"><option value="yes">是</option><option value="no">否</option></select></div>
+        <div class="field"><label>反制%</label><input type="number" id="anti" step="1" min="0" max="18" value="0"></div>
+        <div class="field"><label>是否猎芯</label><select id="liexin"><option value="yes">是</option><option value="no">否</option></select></div>
+        <div class="field"><label>充能效率%（首大）</label><input type="number" id="effFirst" step="1"  value="0"></div>
+        <div class="field"><label>氮气配置</label><select id="nitroConfig"><option value="3x2">3x2</option><option value="1x5">1x5</option><option value="2x2">2x2</option></select></div>
+        <div class="field"><label>氮气数量（首大）</label><input type="number" id="nitroCountFirst" step="1" min="0" max="8" value="0"></div>
+        <div class="field"><label>车辆起步额外充能%</label><input type="text" id="startExtra" readonly></div>
+        <div class="field">
+  <label>车辆浮动充能%（首大）</label>
+  <input type="number" id="floatFirst" step="0.1" min="0" value="0" data-step="1">
+  <span id="floatTip" class="float-tip"></span>
+</div>
+        <div class="field"><label>主赋能</label><select id="mainEnerg"><option value="none">无</option><option value="refuse">拒绝溢出</option><option value="resurge">复苏</option></select></div>
+        <div class="field"><label>次赋能</label><select id="subEnerg"><option value="none">无</option><option value="queYi">缺一</option><option value="rhythm">节奏</option><option value="future">未来</option><option value="huaxinfeng">花信风</option><option value="energyRec">能源回收</option></select></div>
+        <div class="field"><label>缺一档位</label><select id="queYiGear"><option value="0.8">0.8%</option><option value="1.2">1.2%</option><option value="2.0">2.0%</option></select></div>
+        <div class="field" style="display:none;"><label>缺一秒数（首大）</label><input type="number" id="queYiSecFirst" step="1" min="0" max="10" value="0"></div>
+        <div class="field" style="display:none;"><label>节奏次数（首大）</label><input type="number" id="rhythmCountFirst" step="1" min="0" max="4" value="0"></div>
+        <div class="field"><label>辅助核心</label><select id="assistCore"><option value="off">关</option><option value="on">开</option></select></div>
+        <div class="field"><label>团魂% <span class="text-small">(空则计算)</span></label><input type="number" id="tuanHun" step="1" min="0" value="0" placeholder="自动"></div>
+        <div class="field"><label>辅助充能%（首大）</label><input type="number" id="assistFirst" step="1" min="0" value="0"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 二大 -->
+<div class="calc-area-collapsible">
+  <div class="collapsible-header" onclick="toggleCollapsible(this)">
+    <span class="section-title" style="margin-bottom:0;border-bottom:none;cursor:pointer;">二大开启前计算区域 <span class="badge">固定</span></span>
+    <span class="collapse-arrow">▼</span>
+  </div>
+  <div class="collapsible-body">
+    <div class="calc-area" id="areaSecond" style="margin-top:0.5rem;">
+      <div class="grid-2col">
+        <div class="field"><label>充能效率%（二大）</label><input type="number" id="effSecond" step="1"  value="0"></div>
+        <div class="field"><label>氮气数量（二大）</label><input type="number" id="nitroCountSecond" step="1" min="0" max="10" value="0"></div>
+        <div class="field"><label>车辆固定充能%（二大）</label><input type="text" id="fixedSecond" readonly value="0"></div>
+        <div class="field">
+  <label>车辆浮动充能%（二大）</label>
+  <input type="number" id="floatSecond" step="0.1" min="0" value="0" data-step="1">
+  <span id="floatTipSecond" class="float-tip"></span> 
+</div>
+        <div class="field" style="display:none;"><label>缺一秒数（二大）</label><input type="number" id="queYiSecSecond" step="1" min="0" max="15" value="0"></div>
+        <div class="field" style="display:none;"><label>节奏次数（二大）</label><input type="number" id="rhythmCountSecond" step="1" min="0" max="4" value="0"></div>
+        <div class="field"><label>辅助充能%（二大）</label><input type="number" id="assistSecond" step="1" min="0" value="0"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 三大 -->
+<div class="calc-area-collapsible">
+  <div class="collapsible-header" onclick="toggleCollapsible(this)">
+    <span class="section-title" style="margin-bottom:0;border-bottom:none;cursor:pointer;">三大开启前计算区域 <span class="badge">固定</span></span>
+    <span class="collapse-arrow">▼</span>
+  </div>
+  <div class="collapsible-body">
+    <div class="calc-area" id="areaThird" style="margin-top:0.5rem;">
+      <div class="grid-2col">
+        <div class="field"><label>充能效率%（三大）</label><input type="number" id="effThird" step="1"  value="0"></div>
+        <div class="field"><label>氮气数量（三大）</label><input type="number" id="nitroCountThird" step="1" min="0" max="10" value="0"></div>
+        <div class="field"><label>车辆固定充能%（三大）</label><input type="text" id="fixedThird" readonly value="0"></div>
+        <div class="field">
+  <label>车辆浮动充能%（三大）</label>
+  <input type="number" id="floatThird" step="0.1" min="0" value="0" data-step="1">
+  <span id="floatTipThird" class="float-tip"></span>  <!-- 必须有这个 -->
+</div>
+        <div class="field" style="display:none;"><label>缺一秒数（三大）</label><input type="number" id="queYiSecThird" step="1" min="0" max="15" value="0"></div>
+        <div class="field" style="display:none;"><label>节奏次数（三大）</label><input type="number" id="rhythmCountThird" step="1" min="0" max="4" value="0"></div>
+        <div class="field"><label>辅助充能%（三大）</label><input type="number" id="assistThird" step="1" min="0" value="0"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 复制区域 -->
+<div class="copy-area-section">
+  <div class="section-title" style="margin-top:0;">复制三大到更多大招 <span class="badge">三大之后可复制</span></div>
+  <div class="flex-wrap">
+    <span style="color:#bcc6e6;">复制到第</span>
+    <input type="number" id="copyToTarget" value="10" min="4" max="30" step="1">
+    <span style="color:#bcc6e6;">个大招</span>
+    <button class="btn btn-success" id="copyAreasBtn">一键复制三大到第N大</button>
+    <span class="text-muted text-small">（生成4~30大）</span>
+  </div>
+  <div id="copyStatus" style="margin-top:0.5rem; font-size:0.85rem; color:#a7b3d9;"></div>
+</div>
+
+<div id="dynamicAreasContainer"></div>
+
+<div class="btn-group">
+  <button class="btn btn-primary" id="calcBtn">开始计算</button>
+  <button class="btn" id="copyResultBtn">一键复制计算结果</button>
+  <button class="btn" id="resetBtn"> 一键重置</button>
+  <button class="btn btn-primary" id="screenshotBtn">截图分享</button>
+</div>
+<div class="output-area" id="outputArea">
+  <div class="output-summary" id="outputSummary">计算结果将显示在此</div>
+  <div id="outputCombination"></div>
+  <div id="outputDetail"></div>
+</div>
+
+<script>
+(function() {
+  // ===== 车辆数据 =====
+  const vehicleList = [
+    {name:"幻海之汐", chips:"346", start:40, nitro:40, type:"辅助"},
+    {name:"比亚迪 汉", chips:"336", start:37.5, nitro:37.5, type:"辅助"},
+    {name:"奥迪 RS 6 Avant", chips:"346", start:40, nitro:40, type:"辅助"},
+    {name:"宝马 M4 CSL", chips:"346", start:39, nitro:39, type:"辅助"},
+    {name:"果冻", chips:"346", start:40, nitro:40, type:"辅助"},
+    {name:"玉麒麟", chips:"346", start:36, nitro:36, type:"辅助"},
+    {name:"爱玛 晴天", chips:"346", start:38, nitro:38, type:"辅助"},
+    {name:"AITO 问界 M5 EV", chips:"346", start:40, nitro:40, type:"辅助"},
+    {name:"雪佛兰 Camaro ZL1", chips:"366", start:47, nitro:37, type:"辅助"},
+    {name:"玛莎拉蒂 Levante", chips:"366", start:39, nitro:39, type:"辅助"},
+    {name:"逮虾货运", chips:"346", start:39, nitro:39, type:"辅助"},
+    {name:"猫眠梦", chips:"336", start:38, nitro:38, type:"辅助"},
+    {name:"阿斯顿马丁 Vanquish", chips:"346", start:39, nitro:39, type:"辅助"},
+    {name:"杂耍者", chips:"446", start:39, nitro:39, type:"辅助"},
+    {name:"特异点", chips:"334", start:36, nitro:36, type:"辅助"},
+    {name:"福特 Focus RS", chips:"466", start:35, nitro:35, type:"辅助"},
+    {name:"蔚来ET9", chips:"346", start:39, nitro:39, type:"辅助"},
+    {name:"茶韵行者", chips:"346", start:40, nitro:40, type:"辅助"},
+    {name:"蛋仔出击", chips:"346", start:38, nitro:38, type:"辅助"},
+    {name:"幻蝶", chips:"466", start:57, nitro:37, type:"辅助"},
+    {name:"月宫舞灵", chips:"346", start:56, nitro:36, type:"辅助"},
+    {name:"先驱者", chips:"346", start:40, nitro:40, type:"辅助"},
+    {name:"道奇 Charger SRT Hellcat", chips:"366", start:40, nitro:40, type:"辅助"},
+    {name:"摇尾萌萌虎", chips:"366", start:58, nitro:38, type:"辅助"},
+    {name:"大众 ID.R", chips:"366", start:40, nitro:40, type:"辅助"},
+    {name:"风神", chips:"346", start:45, nitro:45, type:"辅助"},
+    {name:"催化剂", chips:"366", start:41, nitro:41, type:"辅助"},
+    {name:"爱玛造梦师", chips:"346", start:35, nitro:35, type:"辅助"},
+    {name:"奥迪RS3", chips:"346", start:39, nitro:39, type:"辅助"},
+    {name:"奥迪TT RS", chips:"346", start:40, nitro:40, type:"辅助"},
+    {name:"本田 Civic Type R", chips:"346", start:39, nitro:39, type:"辅助"},
+    {name:"宝马X5", chips:"366", start:37, nitro:37, type:"辅助"},
+    {name:"方程豹 豹8", chips:"346", start:40, nitro:40, type:"辅助"},
+    {name:"大众Beetle", chips:"446", start:41, nitro:41, type:"辅助"},
+    {name:"极狐阿尔法S全新HI版", chips:"346", start:39, nitro:39, type:"辅助"},
+    {name:"坚盾", chips:"446", start:41, nitro:41, type:"辅助"},
+    {name:"筋斗云", chips:"346", start:39, nitro:39, type:"辅助"},
+    {name:"乐道L60", chips:"346", start:39, nitro:39, type:"辅助"},
+    {name:"梅赛德斯-AMG G 63", chips:"466", start:40, nitro:40, type:"辅助"},
+    {name:"平行巡洋舰", chips:"334", start:37, nitro:37, type:"辅助"},
+    {name:"腾势N7", chips:"346", start:41, nitro:41, type:"辅助"},
+    {name:"团子", chips:"346", start:40, nitro:40, type:"辅助"},
+    {name:"星际探路者", chips:"346", start:40, nitro:40, type:"辅助"},
+    {name:"以太", chips:"346", start:40, nitro:40, type:"辅助"},
+    {name:"游龙惊鸿", chips:"466", start:48, nitro:38, type:"辅助"},
+    {name:"MINI JCW", chips:"334", start:35, nitro:35, type:"辅助"},
+    {name:"法拉利 LaFerrari", chips:"446", start:32, nitro:32, type:"竞速"},
+    {name:"柯尼塞格 One:1", chips:"346", start:34.5, nitro:34.5, type:"竞速"},
+    {name:"布加迪 Veyron", chips:"344", start:32, nitro:32, type:"竞速"},
+    {name:"法拉利 812 Competizione", chips:"366", start:27, nitro:27, type:"竞速"},
+    {name:"奥迪 RS7 Sportback", chips:"366", start:41, nitro:29, type:"竞速"},
+    {name:"布加迪 Divo", chips:"366", start:30, nitro:30, type:"竞速"},
+    {name:"终极·异形", chips:"346", start:33, nitro:33, type:"竞速"},
+    {name:"布加迪 LVN", chips:"446", start:27, nitro:27, type:"竞速"},
+    {name:"英菲尼迪 Prototype", chips:"346", start:25, nitro:25, type:"竞速"},
+    {name:"玛莎拉蒂 Alfieri", chips:"334", start:30, nitro:30, type:"竞速"},
+    {name:"兰博基尼 Huracán STO", chips:"346", start:28, nitro:28, type:"竞速"},
+    {name:"讴歌 NSX", chips:"344", start:29, nitro:29, type:"竞速"},
+    {name:"仰望U9", chips:"346", start:32.5, nitro:32.5, type:"竞速"},
+    {name:"保时捷 918 Spyder", chips:"446", start:28, nitro:28, type:"竞速"},
+    {name:"影豹R·ABT联名版", chips:"346", start:25, nitro:25, type:"竞速"},
+    {name:"禅", chips:"366", start:26.5, nitro:26.5, type:"竞速"},
+    {name:"布加迪 Bolide", chips:"346", start:40, nitro:33, type:"竞速"},
+    {name:"风行者", chips:"334", start:31, nitro:31, type:"竞速"},
+    {name:"迈凯伦 Senna", chips:"446", start:28, nitro:28, type:"竞速"},
+    {name:"日产 GT-R NISMO", chips:"4466", start:29, nitro:29, type:"竞速"},
+    {name:"梅赛德斯-AMG GT Black Series", chips:"446", start:26.5, nitro:26.5, type:"竞速"},
+    {name:"阿斯顿马丁 DB11", chips:"366", start:27, nitro:27, type:"竞速"},
+    {name:"圣骑士", chips:"344", start:30, nitro:30, type:"竞速"},
+    {name:"维纳斯", chips:"346", start:32, nitro:32, type:"竞速"},
+    {name:"迈凯伦 600LT", chips:"346", start:25, nitro:25, type:"竞速"},
+    {name:"踏雪白驹", chips:"344", start:81, nitro:31, type:"竞速"},
+    {name:"兰博基尼 Veneno", chips:"446", start:31.5, nitro:31.5, type:"竞速"},
+    {name:"蔚来 EP9", chips:"346", start:26, nitro:26, type:"竞速"},
+    {name:"莲花 Evija X", chips:"346", start:25, nitro:25, type:"竞速"},
+    {name:"保时捷 935", chips:"334", start:26, nitro:26, type:"竞速"},
+    {name:"帕加尼 Huayra", chips:"366", start:32, nitro:32, type:"竞速"},
+    {name:"迈凯伦 P1", chips:"446", start:53, nitro:33, type:"竞速"},
+    {name:"张飞", chips:"3344", start:30, nitro:30, type:"竞速"},
+    {name:"迈凯伦 720S", chips:"346", start:30, nitro:30, type:"竞速"},
+    {name:"福特 GT", chips:"344", start:48, nitro:33, type:"竞速"},
+    {name:"逐浪", chips:"466", start:47, nitro:27, type:"竞速"},
+    {name:"阿斯顿马丁 Valkyrie AMR Pro", chips:"466", start:26, nitro:26, type:"竞速"},
+  ];
+
+  const nickMap = {
+    "比亚迪汉":"比亚迪 汉","大G":"梅赛德斯-AMG G 63","茶船":"茶韵行者","地狱猫":"道奇 Charger SRT Hellcat",
+    "小老虎":"摇尾萌萌虎","红马丁":"阿斯顿马丁 Vanquish","小飞机":"福特 Focus RS","拉法":"法拉利 LaFerrari",
+    "肥皂":"英菲尼迪 Prototype","塞纳":"迈凯伦 Senna","gtr":"日产 GT-R NISMO","GTR":"日产 GT-R NISMO",
+    "梅奔":"梅赛德斯-AMG GT Black Series","洞洞奔":"梅赛德斯-AMG GT Black Series","洞奔":"梅赛德斯-AMG GT Black Series",
+    "叙利亚战车":"阿斯顿马丁 DB11","毒药":"兰博基尼 Veneno","风之子":"帕加尼 Huayra",
+    "布加迪飞火流星":"布加迪 Bolide","女武神":"阿斯顿马丁 Valkyrie AMR Pro","布加迪威龙":"布加迪 Veyron","byd":"比亚迪 汉","sto":"兰博基尼 Huracán STO"
+  };
+
+  const specialFirstEnergy = {"爱玛造梦师":70,"本田 Civic Type R":95,"布加迪 Bolide":75,"猫眠梦":70,"道奇 Charger SRT Hellcat":70,"特异点":70,"MINI JCW":70,"五菱宏光 MINI EV":70,"雪佛兰 Camaro ZL1":72,"乐道L60":85,"法拉利 LaFerrari":70,"终极·异形":50,"法拉利 812 Competizione":30,"保时捷 935":50,"蔚来ET9":90,"影豹R·ABT联名版":50};
+  const startExtraMap = {"梅赛德斯-AMG GT Black Series":33,"兰博基尼 Veneno":20,"阿斯顿马丁 Valkyrie AMR Pro":20,"柯尼塞格 One:1":20,"MINI JCW":20,"兰博基尼 Huracán STO":25,"踏雪白驹":50,"保时捷 918 Spyder":15};
+  const vehicleFixedCharge = {"比亚迪 汉":15,"极狐阿尔法S全新HI版":15,"梅赛德斯-AMG G 63":8,"踏雪白驹":40,"蔚来 EP9":20,"圣骑士":22,"玛莎拉蒂 Alfieri":37,"禅":24,"讴歌 NSX":100};
+
+  function getNitroRatio(nitroType) {
+    if (nitroType === '1x5') return 1.0;
+    if (nitroType === '2x2') return 0.5;
+    if (nitroType === '3x2') return 1/3;
+    return 1.0;
+  }
+
+  function parseChips(chipsStr) {
+    const chars = chipsStr.split('').map(Number);
+    const diamondCount = chars.filter(c => c === 4).length;
+    const totalSlots = chars.length;
+    const subSlots = totalSlots * 3;
+    return { diamondCount, totalSlots, subSlots, chips: chars };
+  }
+
+  function canAchieve(chipsStr, huiNeeded, xianNeeded, tuanNeeded, isAssist) {
+    if (isAssist && tuanNeeded > 0) return false;
+    const { diamondCount, subSlots } = parseChips(chipsStr);
+    if (xianNeeded > 30) return false;
+
+    const is918 = chipsStr === '446' && document.getElementById('vehicleSelect').value === '保时捷 918 Spyder';
+    const mult = is918 ? 1.5 : 1.0;
+
+    const maxHui = diamondCount * 9 * mult + subSlots * 3 * mult;
+    const maxTuan = diamondCount * 36 * mult + subSlots * 12 * mult;
+
+    if (huiNeeded > maxHui) return false;
+    if (tuanNeeded > maxTuan) return false;
+
+    const slots = diamondCount;
+    for (let huiDiamonds = 0; huiDiamonds <= slots; huiDiamonds++) {
+      for (let xianDiamonds = 0; xianDiamonds <= slots - huiDiamonds; xianDiamonds++) {
+        const tuanDiamonds = slots - huiDiamonds - xianDiamonds;
+        const huiFromMain = huiDiamonds * 9 * mult;
+        const xianFromMain = xianDiamonds * 15 * mult;
+        const tuanFromMain = tuanDiamonds * 36 * mult;
+
+        const huiRemain = Math.max(0, huiNeeded - huiFromMain);
+        const xianRemain = Math.max(0, xianNeeded - xianFromMain);
+        const tuanRemain = Math.max(0, tuanNeeded - tuanFromMain);
+
+        const huiSubsNeeded = Math.ceil(huiRemain / (3 * mult));
+        const xianSubsNeeded = Math.ceil(xianRemain / (5 * mult));
+        const tuanSubsNeeded = Math.ceil(tuanRemain / (12 * mult));
+
+        const totalSubsNeeded = huiSubsNeeded + xianSubsNeeded + tuanSubsNeeded;
+        if (totalSubsNeeded <= subSlots) return true;
+      }
+    }
+    return false;
+  }
+
+  function calcUlt(prevSurplus, params) {
+    const { 
+      start, nitro, hui, xianJi, zhuanjingExtra, 
+      eff, antiVal, nitroCount, nitroRatio,
+      startExtra, floatCharge, fixedCharge, floatEnerg,
+      tuanHun, assistCharge, assistCoreOn,
+      liexinVal, isOdd, ultEnergy, isFirst
+    } = params;
+
+    const antiFactor = 1 - antiVal / 100;
+    const effFactor = 1 + eff / 100;
+
+    let liexinTerm = 0;
+    if (isOdd && liexinVal === 'yes') {
+      liexinTerm = 16 * antiFactor * effFactor;
+    }
+
+    const nitroPart = (nitro + nitro * (hui / 100) + zhuanjingExtra) * effFactor * antiFactor * nitroCount * nitroRatio;
+    const vehiclePart = (fixedCharge + floatCharge) * antiFactor * effFactor;
+    const energPart = (0 + floatEnerg) * antiFactor * effFactor;
+    const xianJiPart = isFirst ? (xianJi * antiFactor) : 0;
+    const assistFactor = assistCoreOn === 'on' ? 1.3 : 1.0;
+    const tuanPart = (tuanHun / 100) * assistCharge * assistFactor * antiFactor * effFactor;
+
+    let startPart = 0;
+    if (isFirst) {
+      startPart = start + startExtra;
+    }
+
+    let total = prevSurplus + startPart + nitroPart + vehiclePart + energPart + xianJiPart + tuanPart + liexinTerm;
+
+    const maxEnergy = 200;
+    if (total > maxEnergy) total = maxEnergy;
+
+    const surplus = total - 100;
+    return { total: total, surplus: surplus > 0 ? surplus : 0 };
+  }
+
+  function getAllUltParams(vehicleName, hui, xianJi, tuanHun) {
+    const v = vehicleList.find(x => x.name === vehicleName);
+    if (!v) return null;
+
+    const start = v.start;
+    const nitro = v.nitro;
+    // 获取大招能量（已受「未来」赋能影响）
+const ultEnergy = parseFloat(document.getElementById('ultEnergy').value) || 100;
+    const zhuanjing = document.getElementById('zhuanjing').value === 'yes' ? 10 : 0;
+    const antiVal = parseFloat(document.getElementById('anti').value) || 0;
+    const liexinVal = document.getElementById('liexin').value;
+    const nitroType = document.getElementById('nitroConfig').value;
+    const nitroRatio = getNitroRatio(nitroType);
+    const assistCoreOn = document.getElementById('assistCore').value;
+    const startExtra = parseFloat(document.getElementById('startExtra').value) || 0;
+    const queYiGear = parseFloat(document.getElementById('queYiGear').value) || 0;
+    const subEnerg = document.getElementById('subEnerg').value;
+
+    const eff1 = parseFloat(document.getElementById('effFirst').value) || 0;
+    const n1 = parseFloat(document.getElementById('nitroCountFirst').value) || 0;
+    const float1 = parseFloat(document.getElementById('floatFirst').value) || 0;
+    const qs1 = parseFloat(document.getElementById('queYiSecFirst').value) || 0;
+    const rc1 = parseFloat(document.getElementById('rhythmCountFirst').value) || 0;
+    const as1 = parseFloat(document.getElementById('assistFirst').value) || 0;
+    let floatEnerg1 = 0;
+    if (subEnerg === 'queYi') floatEnerg1 = queYiGear * qs1;
+    else if (subEnerg === 'rhythm') floatEnerg1 = 4 * rc1;
+    else if (subEnerg === 'huaxinfeng') floatEnerg1 = 7;
+    
+    const eff2 = parseFloat(document.getElementById('effSecond').value) || 0;
+    const n2 = parseFloat(document.getElementById('nitroCountSecond').value) || 0;
+    const fixed2 = parseFloat(document.getElementById('fixedSecond').value) || 0;
+    const float2 = parseFloat(document.getElementById('floatSecond').value) || 0;
+    const qs2 = parseFloat(document.getElementById('queYiSecSecond').value) || 0;
+    const rc2 = parseFloat(document.getElementById('rhythmCountSecond').value) || 0;
+    const as2 = parseFloat(document.getElementById('assistSecond').value) || 0;
+    let floatEnerg2 = 0;
+    if (subEnerg === 'queYi') floatEnerg2 = queYiGear * qs2;
+    else if (subEnerg === 'rhythm') floatEnerg2 = 4 * rc2;
+    else if (subEnerg === 'huaxinfeng') floatEnerg2 = 7;
+    else if (subEnerg === 'energyRec') floatEnerg2 = 10;
+    if (mainEnerg === 'resurge') floatEnerg2 += 12.5;
+
+    const eff3 = parseFloat(document.getElementById('effThird').value) || 0;
+    const n3 = parseFloat(document.getElementById('nitroCountThird').value) || 0;
+    const fixed3 = parseFloat(document.getElementById('fixedThird').value) || 0;
+    const float3 = parseFloat(document.getElementById('floatThird').value) || 0;
+    const qs3 = parseFloat(document.getElementById('queYiSecThird').value) || 0;
+    const rc3 = parseFloat(document.getElementById('rhythmCountThird').value) || 0;
+    const as3 = parseFloat(document.getElementById('assistThird').value) || 0;
+    let floatEnerg3 = 0;
+   if (subEnerg === 'queYi') floatEnerg3 = queYiGear * qs3;
+else if (subEnerg === 'rhythm') floatEnerg3 = 4 * rc3;
+else if (subEnerg === 'huaxinfeng') floatEnerg3 = 7;
+else if (subEnerg === 'energyRec') floatEnerg3 = 10;
+if (mainEnerg === 'resurge') floatEnerg3 += 12.5;
+
+    const ults = [
+      { 
+        label: '首大', eff: eff1, nitroCount: n1, floatCharge: float1, 
+        fixedCharge: 0, floatEnerg: floatEnerg1, 
+        queYiSec: qs1, rhythmCount: rc1, assistCharge: as1, 
+        isOdd: false, isFirst: true 
+      },
+      { 
+        label: '二大', eff: eff2, nitroCount: n2, floatCharge: float2, 
+        fixedCharge: fixed2, floatEnerg: floatEnerg2, 
+        queYiSec: qs2, rhythmCount: rc2, assistCharge: as2, 
+        isOdd: false, isFirst: false 
+      },
+      { 
+        label: '三大', eff: eff3, nitroCount: n3, floatCharge: float3, 
+        fixedCharge: fixed3, floatEnerg: floatEnerg3, 
+        queYiSec: qs3, rhythmCount: rc3, assistCharge: as3, 
+        isOdd: true, isFirst: false 
+      },
+    ];
+
+    const dynEls = document.querySelectorAll('[id^="areaDynamic_"]');
+    dynEls.forEach(el => {
+      const n = parseInt(el.dataset.area);
+      const eff = parseFloat(el.querySelector('.dyn-eff')?.value) || 0;
+      const nCount = parseFloat(el.querySelector('.dyn-nitroCount')?.value) || 0;
+      const fixed = parseFloat(el.querySelector('.dyn-fixed')?.value) || 0;
+      const float = parseFloat(el.querySelector('.dyn-float')?.value) || 0;
+      const qs = parseFloat(el.querySelector('.dyn-queYiSec')?.value) || 0;
+      const rc = parseFloat(el.querySelector('.dyn-rhythmCount')?.value) || 0;
+      const as = parseFloat(el.querySelector('.dyn-assist')?.value) || 0;
+      let floatEnerg = 0;
+     if (subEnerg === 'queYi') floatEnerg = queYiGear * qs;
+else if (subEnerg === 'rhythm') floatEnerg = 4 * rc;
+else if (subEnerg === 'huaxinfeng') floatEnerg = 7;
+else if (subEnerg === 'energyRec') floatEnerg = 10;
+if (mainEnerg === 'resurge') floatEnerg += 12.5;
+      ults.push({
+        label: n === 4 ? '四大' : n + '大',
+        eff, nitroCount: nCount, floatCharge: float, 
+        fixedCharge: fixed, floatEnerg: floatEnerg,
+        queYiSec: qs, rhythmCount: rc, assistCharge: as,
+        isOdd: (n % 2 === 1), isFirst: false
+      });
+    });
+
+    return { start, nitro, ultEnergy, zhuanjing, antiVal, liexinVal, nitroRatio, assistCoreOn, startExtra, ults };
+  }
+
+  function calcAllUlts(vehicleName, hui, xianJi, tuanHun) {
+    const params = getAllUltParams(vehicleName, hui, xianJi, tuanHun);
+    if (!params) return null;
+
+    const { start, nitro, ultEnergy, zhuanjing, antiVal, liexinVal, nitroRatio, assistCoreOn, startExtra, ults } = params;
+
+    let prevSurplus = 0;
+    const results = [];
+
+    ults.forEach((ult) => {
+      const res = calcUlt(prevSurplus, {
+        start, nitro, hui, xianJi, zhuanjingExtra: zhuanjing,
+        eff: ult.eff, antiVal, nitroCount: ult.nitroCount, nitroRatio,
+        startExtra, floatCharge: ult.floatCharge,
+        fixedCharge: ult.fixedCharge, floatEnerg: ult.floatEnerg,
+        tuanHun, assistCharge: ult.assistCharge, assistCoreOn,
+        liexinVal, isOdd: ult.isOdd, ultEnergy,
+        isFirst: ult.isFirst || false
+      });
+      const passed = res.total >= ultEnergy;
+      const surplusForNext = passed ? (res.total - ultEnergy) : 0;
+      results.push({
+        label: ult.label,
+        total: res.total,
+        surplus: surplusForNext,
+        eff: ult.eff,
+        nitroCount: ult.nitroCount,
+        floatCharge: ult.floatCharge,
+        fixedCharge: ult.fixedCharge,
+        floatEnerg: ult.floatEnerg,
+        queYiSec: ult.queYiSec || 0,
+        rhythmCount: ult.rhythmCount || 0,
+        assistCharge: ult.assistCharge,
+        isOdd: ult.isOdd,
+        isFirst: ult.isFirst || false,
+        passed: passed,
+        ultEnergy: ultEnergy
+      });
+      prevSurplus = surplusForNext;
+    });
+
+    return results;
+  }
+
+ function findCombinations(vehicleName, tuanHun, maxHui, maxXian) {
+  const combinations = [];
+  const v = vehicleList.find(x => x.name === vehicleName);
+  if (!v) return combinations;
+
+  const isAssist = v.type === '辅助';
+  const chipsStr = v.chips;
+  
+  let tuanValues;
+  if (tuanHun === -1) {
+    // 第一步：步长5快速筛选
+    let bestTuanCandidates = [];
+    for (let i = 0; i <= 200; i += 5) {
+      // 快速检查这个团魂值是否有可行组合
+      let found = false;
+      let hui = 0;
+      while (hui <= maxHui && !found) {
+        let xian = 0;
+        while (xian <= maxXian && !found) {
+          const can = canAchieve(chipsStr, hui, xian, i, isAssist);
+          if (can) {
+            const results = calcAllUlts(vehicleName, hui, xian, i);
+            if (results && results.every(r => r.passed)) {
+              found = true;
+              bestTuanCandidates.push(i);
+            }
+          }
+          xian = Math.round((xian + 0.1) * 10) / 10;
+        }
+        hui = Math.round((hui + 0.25) * 100) / 100;
+      }
+    }
+    
+    // 第二步：在候选值附近步长1精算
+    if (bestTuanCandidates.length > 0) {
+      const minTuan = Math.max(0, Math.min(...bestTuanCandidates) - 5);
+      const maxTuan = Math.min(200, Math.max(...bestTuanCandidates) + 5);
+      tuanValues = [];
+      for (let i = minTuan; i <= maxTuan; i += 1) {
+        tuanValues.push(i);
+      }
+    } else {
+      // 没找到候选值，全范围步长5再试一次
+      tuanValues = [];
+      for (let i = 0; i <= 200; i += 5) {
+        tuanValues.push(i);
+      }
+    }
+  } else {
+    tuanValues = [tuanHun];
+  }
+
+  tuanValues.forEach(tuan => {
+    let hui = 0;
+    while (hui <= maxHui) {
+      let xian = 0;
+      while (xian <= maxXian) {
+        const can = canAchieve(chipsStr, hui, xian, tuan, isAssist);
+        if (can) {
+          const results = calcAllUlts(vehicleName, hui, xian, tuan);
+          if (results && results.every(r => r.passed)) {
+            combinations.push({ hui, xian, tuan, results });
+          }
+        }
+        xian = Math.round((xian + 0.1) * 10) / 10;
+      }
+      hui = Math.round((hui + 0.25) * 100) / 100;
+    }
+  });
+
+  return combinations;
+}
+
+  // ===== 全局 toggleSubEnergFields 函数 =====
+  function toggleSubEnergFields() {
+  const subVal = document.getElementById('subEnerg').value;
+  const isQueYi = subVal === 'queYi';
+  const isRhythm = subVal === 'rhythm';
+  const isFuture = subVal === 'future';
+  
+  // ===== 缺一档位 =====
+  const queYiGearField = document.getElementById('queYiGear').closest('.field');
+  if (queYiGearField) queYiGearField.style.display = isQueYi ? '' : 'none';
+  
+  // ===== 首大：缺一秒数 =====
+  const queYiSecFirstField = document.getElementById('queYiSecFirst').closest('.field');
+  if (queYiSecFirstField) queYiSecFirstField.style.display = isQueYi ? '' : 'none';
+  
+  // ===== 二大：缺一秒数 =====
+  const queYiSecSecondField = document.getElementById('queYiSecSecond').closest('.field');
+  if (queYiSecSecondField) queYiSecSecondField.style.display = isQueYi ? '' : 'none';
+  
+  // ===== 三大：缺一秒数 =====
+  const queYiSecThirdField = document.getElementById('queYiSecThird').closest('.field');
+  if (queYiSecThirdField) queYiSecThirdField.style.display = isQueYi ? '' : 'none';
+  
+  // ===== 首大：节奏次数 =====
+  const rhythmCountFirstField = document.getElementById('rhythmCountFirst').closest('.field');
+  if (rhythmCountFirstField) rhythmCountFirstField.style.display = isRhythm ? '' : 'none';
+  
+  // ===== 二大：节奏次数 =====
+  const rhythmCountSecondField = document.getElementById('rhythmCountSecond').closest('.field');
+  if (rhythmCountSecondField) rhythmCountSecondField.style.display = isRhythm ? '' : 'none';
+  
+  // ===== 三大：节奏次数 =====
+  const rhythmCountThirdField = document.getElementById('rhythmCountThird').closest('.field');
+  if (rhythmCountThirdField) rhythmCountThirdField.style.display = isRhythm ? '' : 'none';
+  
+  // ===== 动态区域：缺一秒数和节奏次数 =====
+  document.querySelectorAll('.dyn-queYiSec').forEach(el => {
+    const field = el.closest('.field');
+    if (field) field.style.display = isQueYi ? '' : 'none';
+  });
+  document.querySelectorAll('.dyn-rhythmCount').forEach(el => {
+    const field = el.closest('.field');
+    if (field) field.style.display = isRhythm ? '' : 'none';
+  });
+  
+  // ===== 处理「未来」赋能：直接修改大招能量，不调用 updateVehicleInfo =====
+  const vehicleName = document.getElementById('vehicleSelect').value;
+  if (vehicleName) {
+    const sp = specialFirstEnergy[vehicleName] || 100;
+    let ultValue = sp;
+    if (isFuture && sp > 90) {
+      ultValue = 90;
+    }
+    document.getElementById('ultEnergy').value = ultValue;
+  }
+}
+
+  function populateSelect(filter='') {
+    const sorted = [...vehicleList].sort((a,b)=>a.name.localeCompare(b.name));
+    const filtered = sorted.filter(v => {
+      const lower = filter.toLowerCase();
+      const nameLower = v.name.toLowerCase();
+      const matchName = nameLower.includes(lower);
+      const matchNick = Object.keys(nickMap).some(k => k.toLowerCase().includes(lower) && nickMap[k] === v.name);
+      return matchName || matchNick;
+    });
+    const select = document.getElementById('vehicleSelect');
+    select.innerHTML = '';
+    filtered.forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v.name;
+      opt.textContent = v.name + (v.type==='辅助'?' (辅助)':' (竞速)');
+      select.appendChild(opt);
+    });
+    if (filtered.length === 0) {
+      const opt = document.createElement('option');
+      opt.value = '';
+      opt.textContent = '无匹配车辆';
+      select.appendChild(opt);
+    }
+    if (select.options.length > 0) select.selectedIndex = 0;
+    updateVehicleInfo();
+  }
+
+  function updateVehicleInfo() {
+    const name = document.getElementById('vehicleSelect').value;
+    const v = vehicleList.find(x=>x.name===name);
+    if (!v) return;
+    document.getElementById('vehicleChips').textContent = '芯片槽: '+v.chips;
+    document.getElementById('startCharge').value = v.start;
+    document.getElementById('nitroCharge').value = v.nitro;
+    const sp = specialFirstEnergy[name] || 100;
+    const subEnerg = document.getElementById('subEnerg').value;
+    let ultValue = sp;
+    if (subEnerg === 'future' && sp > 90) {
+    ultValue = 90;
+}
+document.getElementById('ultEnergy').value = ultValue;
+    document.getElementById('anti').value = v.type==='辅助'?18:0;
+    document.getElementById('startExtra').value = startExtraMap[name] || 0;
+    const fixed = vehicleFixedCharge[name] || 0;
+    document.getElementById('fixedSecond').value = fixed;
+    document.getElementById('fixedThird').value = fixed;
+    document.querySelectorAll('.dyn-fixed').forEach(el => { el.value = fixed; });
+
+    const isAssist = v.type === '辅助';
+    
+    const tuanHunField = document.getElementById('tuanHun').closest('.field');
+    if (tuanHunField) tuanHunField.style.display = isAssist ? 'none' : '';
+    
+    const assistCoreField = document.getElementById('assistCore').closest('.field');
+    if (assistCoreField) assistCoreField.style.display = isAssist ? 'none' : '';
+    
+    if (isAssist) {
+      document.getElementById('tuanHun').value = 0;
+    }
+    
+    const assistFirstField = document.getElementById('assistFirst').closest('.field');
+    if (assistFirstField) assistFirstField.style.display = isAssist ? 'none' : '';
+    
+    const assistSecondField = document.getElementById('assistSecond').closest('.field');
+    if (assistSecondField) assistSecondField.style.display = isAssist ? 'none' : '';
+    
+    const assistThirdField = document.getElementById('assistThird').closest('.field');
+    if (assistThirdField) assistThirdField.style.display = isAssist ? 'none' : '';
+    
+    document.querySelectorAll('.dyn-assist').forEach(el => {
+      const field = el.closest('.field');
+      if (field) field.style.display = isAssist ? 'none' : '';
+    });
+// ===== 车辆浮动充能提示 =====
+const floatTipFirstOnly = {
+  "烛龙": "开局前12秒内每秒自充能3%",
+};
+
+const floatTipAfterFirst = {
+  "比亚迪 汉": "开局30秒后，每次使用氮气自充能5%",
+  "极狐阿尔法S全新HI版": "开局30秒后，每次使用氮气自充能5%",
+  "梅赛德斯-AMG G 63": "开启大招后的下一个氮气自充能8%",
+  "兰博基尼 Huracán STO": "大招阶段自充能：一阶10%/二阶20%/三阶30%/四阶40%",
+  "宝马 X5": "开局10秒后第五名及以后每秒自充能2%",
+  "布加迪 Veyron": "开启大招后：敌方每次使用大招自充能5%",
+  "仰望 U9": "开启大招后：敌方每台真实阵营车辆提供14.4%",
+  "布加迪 LVN": "大招期间每2次漂移自充能6%",
+  "张飞": "耐久≤50%时每秒自充能1.6%",
+  "梅赛德斯-AMG GT Black Series": "每次经过圈自充能15%",
+  "布加迪 Bolide": "每次使用SP自充能6%",
+};
+
+const floatTipAll = {
+  "五菱宏光 MINI EV": "每次点击小喷自充能1%",
+  "平行巡洋舰": "每秒自充能1.5%",
+  "迈凯伦 Senna": "每秒自充能2%",
+  "奥迪 TT RS": "开局35秒内每秒自充能2%",
+  "爱玛晴天": "每秒自充能0.7%",
+  "幻蝶": "每3秒自充能7.5%",
+  "风行者": "每次释放氮气自充能7%",
+  "英菲尼迪 Prototype": "每次使用蓝/紫色涡轮自充能2.5%/5%",
+  "阿斯顿马丁 Vanquish": "每次漂移自充能4%",
+};
+
+// 判断显示哪个提示（首大）
+let tipFirst = '';
+if (floatTipFirstOnly[name]) {
+  tipFirst = floatTipFirstOnly[name];
+} else if (floatTipAll[name]) {
+  tipFirst = floatTipAll[name];
+}
+const tipFirstElement = document.getElementById('floatTip');
+if (tipFirst) {
+  tipFirstElement.textContent = tipFirst;
+  tipFirstElement.style.display = 'inline-block';
+} else {
+  tipFirstElement.textContent = '';
+  tipFirstElement.style.display = 'none';
+}
+
+// 判断显示哪个提示（二大、三大、xx大）
+let tipAfter = '';
+if (floatTipAfterFirst[name]) {
+  tipAfter = floatTipAfterFirst[name];
+} else if (floatTipAll[name]) {
+  tipAfter = floatTipAll[name];
+}
+// 二大
+const tipSecondElement = document.getElementById('floatTipSecond');
+if (tipAfter) {
+  tipSecondElement.textContent = tipAfter;
+  tipSecondElement.style.display = 'inline-block';
+} else {
+  tipSecondElement.textContent = '';
+  tipSecondElement.style.display = 'none';
+}
+// 三大
+const tipThirdElement = document.getElementById('floatTipThird');
+if (tipAfter) {
+  tipThirdElement.textContent = tipAfter;
+  tipThirdElement.style.display = 'inline-block';
+} else {
+  tipThirdElement.textContent = '';
+  tipThirdElement.style.display = 'none';
+}
+// 动态区域
+document.querySelectorAll('.dyn-float-tip').forEach(el => {
+  if (tipAfter) {
+    el.textContent = tipAfter;
+    el.style.display = 'inline-block';
+  } else {
+    el.textContent = '';
+    el.style.display = 'none';
+  }
+});
+      }
+
+  document.getElementById('mainEnerg').addEventListener('change', function() {
+  const val = this.value;
+  
+  // 获取所有充能效率输入框
+  const effInputs = [
+    document.getElementById('effFirst'),
+    document.getElementById('effSecond'),
+    document.getElementById('effThird'),
+    ...document.querySelectorAll('.dyn-eff')
+  ];
+  
+  if (val === 'refuse') {
+    // 选择「拒绝溢出」：保存原始值，然后 +5
+    effInputs.forEach(el => {
+      const current = parseFloat(el.value) || 0;
+      el.dataset.originalValue = current;
+      el.value = current + 5;
+    });
+  } else {
+    // 取消「拒绝溢出」：恢复原始值
+    effInputs.forEach(el => {
+      if (el.dataset.originalValue !== undefined) {
+        el.value = el.dataset.originalValue;
+        delete el.dataset.originalValue;
+      }
+    });
+  }
+});
+
+  document.getElementById('subEnerg').addEventListener('change', toggleSubEnergFields);
+
+  document.getElementById('vehicleSearchInput').addEventListener('input', function() {
+    populateSelect(this.value);
+  });
+
+  document.getElementById('vehicleSelect').addEventListener('change', function() {
+    document.getElementById('vehicleSearchInput').value = '';
+    updateVehicleInfo();
+    const v = vehicleList.find(x => x.name === this.value);
+    const isAssist = v ? v.type === '辅助' : false;
+    document.querySelectorAll('.dyn-assist').forEach(el => {
+      const field = el.closest('.field');
+      if (field) field.style.display = isAssist ? 'none' : '';
+    });
+  });
+
+  populateSelect('');
+
+  const dynamicContainer = document.getElementById('dynamicAreasContainer');
+
+  function generateAreaHTML(n) {
+  // 数字转中文（扩展到30）
+  function numberToChinese(num) {
+    const chineseMap = {
+      0: '零', 1: '一', 2: '二', 3: '三', 4: '四',
+      5: '五', 6: '六', 7: '七', 8: '八', 9: '九',
+      10: '十', 11: '十一', 12: '十二', 13: '十三', 14: '十四',
+      15: '十五', 16: '十六', 17: '十七', 18: '十八', 19: '十九',
+      20: '二十', 21: '二十一', 22: '二十二', 23: '二十三', 24: '二十四',
+      25: '二十五', 26: '二十六', 27: '二十七', 28: '二十八', 29: '二十九',
+      30: '三十'
+    };
+    return chineseMap[n] || n + '';
+  }
+
+  // n 是数字，直接用 numberToChinese 转换
+  const label = n === 4 ? '四大' : numberToChinese(n) + '大';
+    const vehicleName = document.getElementById('vehicleSelect').value;
+    const v = vehicleList.find(x => x.name === vehicleName);
+    const isAssist = v ? v.type === '辅助' : false;
+    const assistFieldStyle = isAssist ? 'style="display:none;"' : '';
+    const defaultEff = document.getElementById('mainEnerg').value === 'refuse' ? 5 : 0;
+    
+    const subVal = document.getElementById('subEnerg').value;
+    const isQueYi = subVal === 'queYi';
+    const isRhythm = subVal === 'rhythm';
+    const queYiStyle = isQueYi ? '' : 'style="display:none;"';
+    const rhythmStyle = isRhythm ? '' : 'style="display:none;"';
+    
+    return `
+      <div class="calc-area" id="areaDynamic_${n}" data-area="${n}">
+        <div class="area-actions">
+          <button class="btn-sm btn-danger delete-area-btn" data-area="${n}">删除</button>
+        </div>
+        <div class="section-title">${label}开启前计算区域 <span class="badge">复制</span></div>
+        <div class="grid-2col">
+          <div class="field"><label>充能效率%（${label}）</label><input type="number" class="dyn-eff" step="1"  value="${defaultEff}" data-n="${n}"></div>
+          <div class="field"><label>氮气数量（${label}）</label><input type="number" class="dyn-nitroCount" step="1" min="0" max="10" value="0" data-n="${n}"></div>
+          <div class="field"><label>车辆固定充能%（${label}）</label><input type="text" class="dyn-fixed" readonly value="0" data-n="${n}"></div>
+          <div class="field">
+  <label>车辆浮动充能%（${label}）</label>
+  <input type="number" class="dyn-float" step="0.1" min="0" value="0" data-n="${n}" data-step="1">
+  <span class="float-tip dyn-float-tip" data-n="${n}"></span>  <!-- 必须有这个 -->
+</div>
+          <div class="field" ${queYiStyle}><label>缺一秒数（${label}）</label><input type="number" class="dyn-queYiSec" step="1" min="0" max="15" value="0" data-n="${n}"></div>
+          <div class="field" ${rhythmStyle}><label>节奏次数（${label}）</label><input type="number" class="dyn-rhythmCount" step="1" min="0" max="4" value="0" data-n="${n}"></div>
+          <div class="field" ${assistFieldStyle}><label>辅助充能%（${label}）</label><input type="number" class="dyn-assist" step="1" min="0" value="0" data-n="${n}"></div>
+        </div>
+      </div>
+    `;
+  }
+
+  function attachDeleteEvents() {
+    document.querySelectorAll('.delete-area-btn').forEach(btn => {
+      btn.removeEventListener('click', deleteHandler);
+      btn.addEventListener('click', deleteHandler);
+    });
+  }
+
+  function deleteHandler(e) {
+    const areaNum = parseInt(e.target.dataset.area);
+    const el = document.getElementById(`areaDynamic_${areaNum}`);
+    if (el) el.remove();
+  }
+
+  function generateAreas(target) {
+  // 获取当前已存在的最大区域编号
+  let existingMax = 0;
+  document.querySelectorAll('[id^="areaDynamic_"]').forEach(el => {
+    const num = parseInt(el.dataset.area);
+    if (num > existingMax) existingMax = num;
+  });
+  
+  // 如果还没有任何区域，从4开始
+  let startNum = existingMax >= 4 ? existingMax + 1 : 4;
+  
+  // ===== 如果目标编号 < 已存在的最大编号，强制删除多余的区域 =====
+  if (target < existingMax) {
+    let deletedCount = 0;
+    // 遍历所有动态区域，删除编号大于 target 的
+    document.querySelectorAll('[id^="areaDynamic_"]').forEach(el => {
+      const num = parseInt(el.dataset.area);
+      if (num > target) {
+        // 找到整个折叠容器（父级 .calc-area-collapsible）
+        const wrapper = el.closest('.calc-area-collapsible');
+        if (wrapper) {
+          wrapper.remove();
+          deletedCount++;
+        } else {
+          // 如果找不到父级，直接删除元素本身
+          el.remove();
+          deletedCount++;
+        }
+      }
+    });
+    
+    // 重新统计剩余最大编号
+    let newMax = 0;
+    document.querySelectorAll('[id^="areaDynamic_"]').forEach(el => {
+      const num = parseInt(el.dataset.area);
+      if (num > newMax) newMax = num;
+    });
+    existingMax = newMax;
+    
+    document.getElementById('copyStatus').textContent = '已强制删除 ' + (target + 1) + '~' + (existingMax + deletedCount) + ' 大区域，保留至 ' + target + ' 大（已填数据保留）';
+    return;
+  }
+  
+  // 如果目标编号 == 已存在的最大编号，提示并保留已有数据
+  if (target === existingMax) {
+    document.getElementById('copyStatus').textContent = '已存在 ' + existingMax + ' 大区域，无需重复生成（保留已填数据）';
+    return;
+  }
+  
+  // ===== 目标编号 > 已存在的最大编号，增量新增 =====
+  for (let i = startNum; i <= target; i++) {
+    const html = generateAreaHTML(i);
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
+    const el = temp.firstElementChild;
+    dynamicContainer.appendChild(el);
+  }
+  
+  // 同步固定充能值
+  const fixed = vehicleFixedCharge[document.getElementById('vehicleSelect').value] || 0;
+  document.querySelectorAll('.dyn-fixed').forEach(el => { el.value = fixed; });
+  
+  attachDeleteEvents();
+  document.getElementById('copyStatus').textContent = '已新增 ' + startNum + '~' + target + ' 大区域 (共 ' + (target - startNum + 1) + ' 个)';
+
+  const vehicleName = document.getElementById('vehicleSelect').value;
+  const v = vehicleList.find(x => x.name === vehicleName);
+  const isAssist = v ? v.type === '辅助' : false;
+  document.querySelectorAll('.dyn-assist').forEach(el => {
+    const field = el.closest('.field');
+    if (field) field.style.display = isAssist ? 'none' : '';
+  });
+
+  const mainEnerg = document.getElementById('mainEnerg');
+  if (mainEnerg.value === 'refuse') {
+    document.querySelectorAll('.dyn-eff').forEach(el => {
+      el.value = 5;
+    });
+  }
+
+  toggleSubEnergFields();
+// ===== 新增：更新动态区域的提示 =====
+  const name = document.getElementById('vehicleSelect').value;
+  
+  const floatTipFirstOnly = {
+    "烛龙": "开局前12秒内每秒自充能3%",
+  };
+  const floatTipAfterFirst = {
+    "比亚迪 汉": "开局30秒后，每次使用氮气自充能5%",
+    "极狐阿尔法S全新HI版": "开局30秒后，每次使用氮气自充能5%",
+    "梅赛德斯-AMG G 63": "开启大招后的下一个氮气自充能8%",
+    "兰博基尼 Huracán STO": "大招阶段自充能：一阶10%/二阶20%/三阶30%/四阶40%",
+    "宝马 X5": "开局10秒后第五名及以后每秒自充能2%",
+    "布加迪 Veyron": "开启大招后：敌方每次使用大招自充能5%",
+    "仰望 U9": "开启大招后：敌方每台真实阵营车辆提供14.4%",
+    "布加迪 LVN": "大招期间每2次漂移自充能6%",
+    "张飞": "耐久≤50%时每秒自充能1.6%",
+    "梅赛德斯-AMG GT Black Series": "每次经过圈自充能15%",
+    "布加迪 Bolide": "每次使用SP自充能6%",
+  };
+  const floatTipAll = {
+    "五菱宏光 MINI EV": "每次点击小喷自充能1%",
+    "平行巡洋舰": "每秒自充能1.5%",
+    "迈凯伦 Senna": "每秒自充能2%",
+    "奥迪 TT RS": "开局35秒内每秒自充能2%",
+    "爱玛晴天": "每秒自充能0.7%",
+    "幻蝶": "每3秒自充能7.5%",
+    "风行者": "每次释放氮气自充能7%",
+    "英菲尼迪 Prototype": "每次使用蓝/紫色涡轮自充能2.5%/5%",
+    "阿斯顿马丁 Vanquish": "每次漂移自充能4%",
+  };
+  
+  let tipAfter = '';
+  if (floatTipAfterFirst[name]) {
+    tipAfter = floatTipAfterFirst[name];
+  } else if (floatTipAll[name]) {
+    tipAfter = floatTipAll[name];
+  }
+  
+  document.querySelectorAll('.dyn-float-tip').forEach(el => {
+    if (tipAfter) {
+      el.textContent = tipAfter;
+      el.style.display = 'inline-block';
+    } else {
+      el.textContent = '';
+      el.style.display = 'none';
+    }
+  });
+}
+  document.getElementById('copyAreasBtn').addEventListener('click', function() {
+    const target = parseInt(document.getElementById('copyToTarget').value) || 10;
+    if (target < 4 || target > 30) { alert('请输入4~30'); return; }
+    generateAreas(target);
+  });
+
+  document.getElementById('vehicleSelect').addEventListener('change', function() {
+    const fixed = vehicleFixedCharge[this.value] || 0;
+    document.querySelectorAll('.dyn-fixed').forEach(el => { el.value = fixed; });
+  });
+
+  document.getElementById('guideToggle').addEventListener('click', function() {
+    const dd = document.getElementById('guideDropdown');
+    dd.classList.toggle('show');
+    this.textContent = dd.classList.contains('show') ? '使用指南（使用前必看） ▲' : '使用指南（使用前必看） ▼';
+  });
+
+  function toggleCollapsible(header) {
+    const body = header.nextElementSibling;
+    const arrow = header.querySelector('.collapse-arrow');
+    if (body.classList.contains('hidden')) {
+      body.classList.remove('hidden');
+      arrow.classList.remove('collapsed');
+    } else {
+      body.classList.add('hidden');
+      arrow.classList.add('collapsed');
+    }
+  }
+  window.toggleCollapsible = toggleCollapsible;
+
+  function detailClickHandler(e) {
+  const btn = e.target;
+  const block = btn.closest('.output-block');
+  if (block) {
+    const content = block.querySelector('.detail-content');
+    if (content) {
+      content.classList.toggle('show');
+      btn.textContent = content.classList.contains('show') ? '▲ 收起详情' : '▼ 查看详情';
+    }
+  }
+}
+
+  document.getElementById('calcBtn').addEventListener('click', function() {
+  const vehicleName = document.getElementById('vehicleSelect').value;
+  const v = vehicleList.find(x => x.name === vehicleName);
+  if (!v) { alert('请选择有效车辆'); return; }
+
+  const huiInput = document.getElementById('huiNeng');
+  const xianInput = document.getElementById('xianJi');
+  const tuanInput = document.getElementById('tuanHun');
+
+  const huiVal = huiInput.value.trim();
+  const xianVal = xianInput.value.trim();
+  const tuanVal = tuanInput.value.trim();
+
+  const isHuiEmpty = huiVal === '';
+  const isXianEmpty = xianVal === '';
+  const isTuanEmpty = tuanVal === '';
+
+  const hui = isHuiEmpty ? 0 : parseFloat(huiVal) || 0;
+  const xian = isXianEmpty ? 0 : parseFloat(xianVal) || 0;
+  const tuan = isTuanEmpty ? -1 : (parseFloat(tuanVal) || 0);
+
+  const isAssist = v.type === '辅助';
+  const chipsStr = v.chips;
+  const { diamondCount, subSlots } = parseChips(chipsStr);
+  const is918 = vehicleName === '保时捷 918 Spyder';
+  const mult = is918 ? 1.5 : 1.0;
+  const maxHui = diamondCount * 9 * mult + subSlots * 3 * mult;
+  const maxXian = 30;
+
+  // 生成团魂遍历列表（只有团魂为空时才遍历）
+  function getTuanValues(tuan) {
+    if (tuan === -1) {
+      const values = [];
+      for (let i = 0; i <= 200; i += 1) {
+        values.push(i);
+      }
+      return values;
+    }
+    return [tuan];
+  }
+
+  let outputCombination = '';
+  let outputDetail = '';
+  let results = null;
+
+  // ===== 模式1: 汇能空 + 先机空 =====
+  if (isHuiEmpty && isXianEmpty) {
+    const tuanValues = getTuanValues(tuan);
+    let allCombos = [];
+
+    tuanValues.forEach(tuanTest => {
+      let huiTest = 0;
+      while (huiTest <= maxHui) {
+        let xianTest = 0;
+        while (xianTest <= maxXian) {
+          const can = canAchieve(chipsStr, huiTest, xianTest, tuanTest, isAssist);
+          if (can) {
+            const r = calcAllUlts(vehicleName, huiTest, xianTest, tuanTest);
+            if (r && r.every(item => item.passed)) {
+              allCombos.push({ hui: huiTest, xian: xianTest, tuan: tuanTest, results: r });
+            }
+          }
+          xianTest = Math.round((xianTest + 0.1) * 10) / 10;
+        }
+        huiTest = Math.round((huiTest + 0.25) * 100) / 100;
+      }
+    });
+
+    if (allCombos.length === 0) {
+      outputCombination = '未找到满足所有大招要求的先机+汇能' + (isTuanEmpty ? '+团魂' : '') + '组合';
+    } else {
+      const sortedByXian = [...allCombos].sort((a,b) => a.xian - b.xian || a.hui - b.hui || a.tuan - b.tuan);
+      const minXianCombo = sortedByXian[0];
+      const sortedByHui = [...allCombos].sort((a,b) => a.hui - b.hui || a.xian - b.xian || a.tuan - b.tuan);
+      const minHuiCombo = sortedByHui[0];
+
+      const tuanDisplay = isAssist ? '' : ' + 团魂';
+      outputCombination = '【组合1-先机最低】先机' + minXianCombo.xian.toFixed(1) + '% + 汇能' + minXianCombo.hui.toFixed(2) + '%' + tuanDisplay + minXianCombo.tuan.toFixed(0) + '\n';
+      outputCombination += '【组合2-汇能最低】汇能' + minHuiCombo.hui.toFixed(2) + '% + 先机' + minHuiCombo.xian.toFixed(1) + '%' + tuanDisplay + minHuiCombo.tuan.toFixed(0);
+
+      results = minXianCombo.results;
+    }
+
+  // ===== 模式2: 汇能空 + 先机有值 =====
+  } else if (isHuiEmpty && !isXianEmpty) {
+    let found = false;
+    let bestHuiVal = 0;
+    let bestTuanVal = 0;
+    let bestResults = null;
+    const tuanValues = getTuanValues(tuan);
+
+    for (let tuanIdx = 0; tuanIdx < tuanValues.length && !found; tuanIdx++) {
+      const tuanTest = tuanValues[tuanIdx];
+      let huiTest = 0;
+      while (huiTest <= maxHui && !found) {
+        const can = canAchieve(chipsStr, huiTest, xian, tuanTest, isAssist);
+        if (can) {
+          const r = calcAllUlts(vehicleName, huiTest, xian, tuanTest);
+          if (r && r.every(item => item.passed)) {
+            found = true;
+            bestHuiVal = huiTest;
+            bestTuanVal = tuanTest;
+            bestResults = r;
+          }
+        }
+        huiTest = Math.round((huiTest + 0.25) * 100) / 100;
+      }
+    }
+
+    const tuanDisplay = isAssist ? '' : ' + 团魂';
+    if (found) {
+      const can = canAchieve(chipsStr, bestHuiVal, xian, bestTuanVal, isAssist);
+      outputCombination = '汇能' + bestHuiVal.toFixed(2) + '% + 先机' + xian.toFixed(1) + '%' + tuanDisplay + bestTuanVal.toFixed(0);
+      outputCombination += can ? ' ✅ 芯片要求可以达到' : ' ❌ 芯片词条要求达不到';
+      results = bestResults;
+    } else {
+      outputCombination = '未找到满足所有大招要求的汇能' + (isTuanEmpty ? '+团魂' : '') + '组合（先机' + xian.toFixed(1) + '%）';
+    }
+
+  // ===== 模式3: 汇能有值 + 先机空 =====
+  } else if (!isHuiEmpty && isXianEmpty) {
+    let found = false;
+    let bestXianVal = 0;
+    let bestTuanVal = 0;
+    let bestResults = null;
+    const tuanValues = getTuanValues(tuan);
+
+    for (let tuanIdx = 0; tuanIdx < tuanValues.length && !found; tuanIdx++) {
+      const tuanTest = tuanValues[tuanIdx];
+      let xianTest = 0;
+      while (xianTest <= maxXian && !found) {
+        const can = canAchieve(chipsStr, hui, xianTest, tuanTest, isAssist);
+        if (can) {
+          const r = calcAllUlts(vehicleName, hui, xianTest, tuanTest);
+          if (r && r.every(item => item.passed)) {
+            found = true;
+            bestXianVal = xianTest;
+            bestTuanVal = tuanTest;
+            bestResults = r;
+          }
+        }
+        xianTest = Math.round((xianTest + 0.1) * 10) / 10;
+      }
+    }
+
+    const tuanDisplay = isAssist ? '' : ' + 团魂';
+    if (found) {
+      const can = canAchieve(chipsStr, hui, bestXianVal, bestTuanVal, isAssist);
+      outputCombination = '汇能' + hui.toFixed(2) + '% + 先机' + bestXianVal.toFixed(1) + '%' + tuanDisplay + bestTuanVal.toFixed(0);
+      outputCombination += can ? ' ✅ 芯片要求可以达到' : ' ❌ 芯片词条要求达不到';
+      results = bestResults;
+    } else {
+      outputCombination = '未找到满足所有大招要求的先机' + (isTuanEmpty ? '+团魂' : '') + '组合（汇能' + hui.toFixed(2) + '%）';
+    }
+
+  // ===== 模式4: 汇能有值 + 先机有值 =====
+  } else {
+    let found = false;
+    let bestTuanVal = 0;
+    let bestResults = null;
+    const tuanValues = getTuanValues(tuan);
+
+    for (let tuanIdx = 0; tuanIdx < tuanValues.length && !found; tuanIdx++) {
+      const tuanTest = tuanValues[tuanIdx];
+      const can = canAchieve(chipsStr, hui, xian, tuanTest, isAssist);
+      if (can) {
+        const r = calcAllUlts(vehicleName, hui, xian, tuanTest);
+        if (r && r.every(item => item.passed)) {
+          found = true;
+          bestTuanVal = tuanTest;
+          bestResults = r;
+        }
+      }
+    }
+
+    const tuanDisplay = isAssist ? '' : ' + 团魂';
+    if (found) {
+      const can = canAchieve(chipsStr, hui, xian, bestTuanVal, isAssist);
+      outputCombination = '汇能' + hui.toFixed(2) + '% + 先机' + xian.toFixed(1) + '%' + tuanDisplay + bestTuanVal.toFixed(0);
+      outputCombination += can ? ' ✅ 芯片要求可以达到' : ' ❌ 芯片词条要求达不到';
+      results = bestResults;
+    } else {
+      outputCombination = '未找到满足所有大招要求的团魂组合（汇能' + hui.toFixed(2) + '% + 先机' + xian.toFixed(1) + '%）';
+    }
+  }
+
+  // ===== 输出结果 =====
+  const nitroConfig = document.getElementById('nitroConfig').value;
+  const zhuanjingText = document.getElementById('zhuanjing').value === 'yes' ? '是' : '否';
+  const liexinText = document.getElementById('liexin').value === 'yes' ? '是' : '否';
+
+  document.getElementById('outputSummary').innerHTML = 
+    '车辆: ' + vehicleName + ' | 氮气配置: ' + nitroConfig + ' | 专精: ' + zhuanjingText + ' | 猎芯: ' + liexinText;
+
+  document.getElementById('outputCombination').innerHTML = '<div class="combination-result"><span class="label">先机+汇能+团魂组合：</span><br><br><span class="value">' + outputCombination.replace(/\n/g, '<br>') + '</span></div>';
+
+  if (results && results.length > 0) {
+    outputDetail = buildDetailOutput(results);
+  } else {
+    outputDetail = '<div class="output-block" style="border-left-color:#f28b82;"><span class="text-red">❌ 未找到满足条件的组合，请调整参数后重试</span></div>';
+  }
+  document.getElementById('outputDetail').innerHTML = outputDetail;
+
+  document.querySelectorAll('.detail-toggle').forEach(btn => {
+    btn.removeEventListener('click', detailClickHandler);
+    btn.addEventListener('click', detailClickHandler);
+  });
+});
+
+  function buildDetailOutput(results) {
+    function numberToChinese(num) {
+    const chineseMap = {
+      0: '零', 1: '一', 2: '二', 3: '三', 4: '四',
+      5: '五', 6: '六', 7: '七', 8: '八', 9: '九',
+      10: '十', 11: '十一', 12: '十二', 13: '十三', 14: '十四',
+      15: '十五', 16: '十六', 17: '十七', 18: '十八', 19: '十九',
+      20: '二十', 21: '二十一', 22: '二十二', 23: '二十三', 24: '二十四',
+      25: '二十五', 26: '二十六', 27: '二十七', 28: '二十八', 29: '二十九',
+      30: '三十'
+    };
+    return chineseMap[num] || num + '';
+  }
+
+  let html = '';
+
+  results.forEach((r) => {
+    // ===== 转换 label =====
+    let label = r.label;
+    // 首大、二大、三大保持不变
+    if (label !== '首大' && label !== '二大' && label !== '三大') {
+      const numMatch = label.match(/\d+/);
+      if (numMatch) {
+        const num = parseInt(numMatch[0]);
+        if (num >= 4 && num <= 30) {
+          label = numberToChinese(num) + '大';
+        }
+      }
+    }
+    const surplusDisplay = r.total > 100 ? (r.total - 100) : 0;
+    
+    // 获取当前的团魂值
+    const tuanHunVal = document.getElementById('tuanHun').value.trim();
+    const tuanDisplay = tuanHunVal === '' ? '自动计算' : tuanHunVal;
+    
+    // 获取次赋能选择
+    const subEnerg = document.getElementById('subEnerg').value;
+    const isQueYi = subEnerg === 'queYi';
+    const isRhythm = subEnerg === 'rhythm';
+    
+    let detailLines = [];
+    
+    if (r.isFirst) {
+      // 首大基础字段
+      detailLines = [
+        label + '最终计算能量：' + r.total.toFixed(3) + '%',
+        label + '多出能量：' + surplusDisplay.toFixed(3) + '%',
+        '充能效率%（' + label + '）：' + r.eff + '%',
+        '氮气配置：' + document.getElementById('nitroConfig').value,
+        '氮气数量（' + label + '）：' + r.nitroCount,
+        '是否专精：' + (document.getElementById('zhuanjing').value === 'yes' ? '是' : '否'),
+        '反制%：' + (document.getElementById('anti').value || 0) + '%',
+        '猎芯：' + (document.getElementById('liexin').value === 'yes' ? '是' : '否'),
+        '车辆浮动充能%（' + label + '）：' + r.floatCharge + '%',
+        '主赋能：' + document.getElementById('mainEnerg').value,
+        '次赋能：' + document.getElementById('subEnerg').value,
+        '辅助核心：' + document.getElementById('assistCore').value
+      ];
+      
+      // 根据次赋能类型添加对应字段
+      if (isQueYi) {
+        detailLines.push('缺一档位：' + document.getElementById('queYiGear').value + '%');
+        detailLines.push('缺一秒数（' + label + '）：' + r.queYiSec);
+      } else if (isRhythm) {
+        detailLines.push('节奏次数（' + label + '）：' + r.rhythmCount);
+      }
+      
+      // 添加团魂和辅助充能
+      detailLines.push('团魂%：' + tuanDisplay);
+      detailLines.push('辅助充能%（' + label + '）：' + r.assistCharge + '%');
+      detailLines.push('赋能充能%（' + label + '）：' + r.floatEnerg + '%');
+    } else if (label === '二大') {
+      // 二大基础字段
+      detailLines = [
+        label + '最终计算能量：' + r.total.toFixed(3) + '%',
+        label + '多出能量：' + surplusDisplay.toFixed(3) + '%',
+        '充能效率%（' + label + '）：' + r.eff + '%',
+        '氮气数量（' + label + '）：' + r.nitroCount,
+        '车辆固定充能%（' + label + '）：' + r.fixedCharge + '%',
+        '车辆浮动充能%（' + label + '）：' + r.floatCharge + '%'
+      ];
+      
+      // 根据次赋能类型添加对应字段
+      if (isQueYi) {
+        detailLines.push('缺一档位：' + document.getElementById('queYiGear').value + '%');
+        detailLines.push('缺一秒数（' + label + '）：' + r.queYiSec);
+      } else if (isRhythm) {
+        detailLines.push('节奏次数（' + label + '）：' + r.rhythmCount);
+      }
+      
+      detailLines.push('辅助充能%（' + label + '）：' + r.assistCharge + '%');
+      detailLines.push('赋能充能%（' + label + '）：' + r.floatEnerg + '%');
+    } else {
+      // 三大及以后基础字段
+      detailLines = [
+        label + '最终计算能量：' + r.total.toFixed(3) + '%',
+        label + '多出能量：' + surplusDisplay.toFixed(3) + '%',
+        '充能效率%（' + label + '）：' + r.eff + '%',
+        '氮气数量（' + label + '）：' + r.nitroCount,
+        '车辆固定充能%（' + label + '）：' + r.fixedCharge + '%',
+        '车辆浮动充能%（' + label + '）：' + r.floatCharge + '%',
+        '猎芯（奇数次）：' + (r.isOdd ? '是 (隐匿猎手+16%)' : '否')
+      ];
+      
+      // 根据次赋能类型添加对应字段
+      if (isQueYi) {
+        detailLines.push('缺一档位：' + document.getElementById('queYiGear').value + '%');
+        detailLines.push('缺一秒数（' + label + '）：' + r.queYiSec);
+      } else if (isRhythm) {
+        detailLines.push('节奏次数（' + label + '）：' + r.rhythmCount);
+      }
+      
+      detailLines.push('辅助充能%（' + label + '）：' + r.assistCharge + '%');
+      detailLines.push('赋能充能%（' + label + '）：' + r.floatEnerg + '%');
+}
+
+    html += `<div class="output-block">
+      <div class="flex-wrap">
+        <strong>${label}最终计算能量：</strong> ${r.total.toFixed(3)}%
+        <span class="text-gold">(超出${surplusDisplay.toFixed(3)}%)</span>
+        <span class="detail-toggle">▼ 查看详情</span>
+      </div>
+      <div class="detail-content">${detailLines.join('\n')}</div>
+    </div>`;
+  });
+
+  return html;
+}
+
+  document.getElementById('copyResultBtn').addEventListener('click', function() {
+  const texts = [];
+  
+  // ===== 获取顶部信息 =====
+  const vehicleName = document.getElementById('vehicleSelect').value;
+  const nitroConfig = document.getElementById('nitroConfig').value;
+  const zhuanjingText = document.getElementById('zhuanjing').value === 'yes' ? '是' : '否';
+  const liexinText = document.getElementById('liexin').value === 'yes' ? '是' : '否';
+  const summaryText = '车辆: ' + vehicleName + ' | 氮气配置: ' + nitroConfig + ' | 专精: ' + zhuanjingText + ' | 猎芯: ' + liexinText;
+  texts.push(summaryText);
+  texts.push(''); // 空行分隔
+  
+  // ===== 获取组合信息 =====
+  const combo = document.querySelector('#outputCombination .value');
+  if (combo) texts.push('组合: ' + combo.textContent);
+  texts.push(''); // 空行分隔
+  
+  // ===== 获取各大招详情 =====
+  document.querySelectorAll('.output-block').forEach(block => {
+    const strong = block.querySelector('.flex-wrap strong');
+    const detail = block.querySelector('.detail-content');
+    if (strong) {
+      const label = strong.textContent.trim();
+      const detailText = detail ? detail.textContent.trim() : '';
+      texts.push(label);
+      texts.push(detailText);
+      texts.push(''); // 每个大招之间空行
+    }
+  });
+  
+  const result = texts.join('\n');
+  navigator.clipboard.writeText(result).then(() => alert('已复制！')).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = result;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    ta.remove();
+    alert('已复制！');
+  });
+});
+// ===== 截图分享功能 =====
+document.getElementById('screenshotBtn').addEventListener('click', function() {
+  const outputArea = document.getElementById('outputArea');
+  
+  // 检查是否有计算结果
+  const hasResult = document.querySelector('#outputCombination .value');
+  if (!hasResult) {
+    alert('请先点击「开始计算」生成结果再截图！');
+    return;
+  }
+  
+  // 先展开所有详情，让截图内容完整
+  const detailContents = outputArea.querySelectorAll('.detail-content');
+  const detailToggles = outputArea.querySelectorAll('.detail-toggle');
+  const expandedStates = [];
+  
+  detailContents.forEach((el, index) => {
+    expandedStates.push(el.classList.contains('show'));
+    if (!el.classList.contains('show')) {
+      el.classList.add('show');
+      if (detailToggles[index]) {
+        detailToggles[index].textContent = '▲ 收起详情';
+      }
+    }
+  });
+  
+  // 显示加载提示
+  const btn = this;
+  const originalText = btn.textContent;
+  btn.textContent = ' 生成中...';
+  btn.disabled = true;
+  
+  // 用 html2canvas 截图
+  html2canvas(outputArea, {
+    scale: 2,
+    backgroundColor: '#0e1327',
+    allowTaint: false,
+    useCORS: true,
+    logging: false,
+    width: outputArea.scrollWidth,
+    height: outputArea.scrollHeight,
+    windowWidth: outputArea.scrollWidth,
+    windowHeight: outputArea.scrollHeight
+  }).then(canvas => {
+    // 恢复折叠状态
+    detailContents.forEach((el, index) => {
+      if (!expandedStates[index]) {
+        el.classList.remove('show');
+        if (detailToggles[index]) {
+          detailToggles[index].textContent = '▼ 查看详情';
+        }
+      }
+    });
+    
+    // ===== 文件名绑定车辆名（去掉括号后缀） =====
+    const vehicleSelect = document.getElementById('vehicleSelect');
+    const vehicleName = vehicleSelect.options[vehicleSelect.selectedIndex]?.text || '未选择车辆';
+    const cleanVehicleName = vehicleName.replace(/[（(].*[）)]/g, '').trim();
+    const fileName = cleanVehicleName + ' 芯片计算结果.png';
+    const link = document.createElement('a');
+    link.download = fileName;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    // ===== 结束 =====
+    
+    btn.textContent = '✅ 已生成';
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }, 2000);
+    
+  }).catch(err => {
+    console.error('截图失败:', err);
+    alert('截图生成失败，请重试或使用复制功能');
+    
+    // 恢复折叠状态
+    detailContents.forEach((el, index) => {
+      if (!expandedStates[index]) {
+        el.classList.remove('show');
+        if (detailToggles[index]) {
+          detailToggles[index].textContent = '▼ 查看详情';
+        }
+      }
+    });
+    
+    btn.textContent = originalText;
+    btn.disabled = false;
+  });
+});// ===== 一键重置（刷新页面） =====
+document.getElementById('resetBtn').addEventListener('click', function() {
+  if (confirm('确定要重置所有数据吗？页面将刷新！')) {
+    location.reload();
+  }
+});
+ // ===== 折叠功能（onclick 方式，给首大、二大、三大用） =====
+  function toggleCollapsible(header) {
+    const body = header.nextElementSibling;
+    const arrow = header.querySelector('.collapse-arrow');
+    if (body.classList.contains('hidden')) {
+      body.classList.remove('hidden');
+      arrow.classList.remove('collapsed');
+    } else {
+      body.classList.add('hidden');
+      arrow.classList.add('collapsed');
+    }
+  }
+  window.toggleCollapsible = toggleCollapsible;
+
+  // ===== 折叠功能（事件委托方式，给动态区域用） =====
+  document.addEventListener('click', function(e) {
+    const header = e.target.closest('.collapsible-header');
+    if (header && header.dataset.toggle === 'collapse') {
+      const body = header.nextElementSibling;
+      const arrow = header.querySelector('.collapse-arrow');
+      if (body.classList.contains('hidden')) {
+        body.classList.remove('hidden');
+        arrow.classList.remove('collapsed');
+      } else {
+        body.classList.add('hidden');
+        arrow.classList.add('collapsed');
+      }
+    }
+  });
+// ===== 车辆浮动充能：上下箭头步长为1，手动输入支持0.1 =====
+  document.addEventListener('input', function(e) {
+    const el = e.target;
+    if (el.matches('#floatFirst, #floatSecond, #floatThird, .dyn-float')) {
+      // 手动输入时，允许任意小数，不做限制
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    const el = e.target;
+    if (el.matches('#floatFirst, #floatSecond, #floatThird, .dyn-float')) {
+      const step = parseFloat(el.dataset.step) || 1;
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const current = parseFloat(el.value) || 0;
+        el.value = Math.round((current + step) * 100) / 100;
+        el.dispatchEvent(new Event('input'));
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const current = parseFloat(el.value) || 0;
+        const newVal = Math.max(0, current - step);
+        el.value = Math.round(newVal * 100) / 100;
+        el.dispatchEvent(new Event('input'));
+      }
+    }
+  }, true);
+  setTimeout(function() {
+  toggleSubEnergFields();
+  
+  const mainEnerg = document.getElementById('mainEnerg');
+  if (mainEnerg.value === 'refuse') {
+    // 默认选中拒绝溢出时，给所有充能效率 +5
+    const effInputs = [
+      document.getElementById('effFirst'),
+      document.getElementById('effSecond'),
+      document.getElementById('effThird'),
+      ...document.querySelectorAll('.dyn-eff')
+    ];
+    effInputs.forEach(el => {
+      const current = parseFloat(el.value) || 0;
+      el.dataset.originalValue = current;
+      el.value = current + 5;
+    });
+  }
+}, 100);
+
+})();
+</script>
+</body>
+</html>

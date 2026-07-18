@@ -335,10 +335,34 @@
       padding: 0 0.5rem;
     }
     @media (max-width: 500px) {
-      .grid-2col { grid-template-columns: 1fr 1fr; }
-      .header-main { font-size: 1.4rem; }
-      .calc-area .area-actions { position: static; margin-top: 0.5rem; justify-content: flex-end; }
-    }
+  .grid-2col { grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+  .header-main { font-size: 1.1rem; padding: 0.5rem; }
+  .sub-header { font-size: 0.65rem; gap: 0.2rem 0.4rem; flex-wrap: wrap; }
+  .search-section { flex-wrap: wrap; padding: 0.6rem; gap: 0.4rem; }
+  .search-section input, .search-section select { flex: 1 1 100%; }
+  .search-section label { font-size: 0.8rem; }
+  .btn-group { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .btn-group .btn { flex: 1 1 calc(50% - 0.4rem); font-size: 0.7rem; padding: 0.4rem 0.2rem; min-width: 0; white-space: normal; }
+  .calc-area { padding: 0.6rem 0.4rem; }
+  .calc-area-collapsible { padding: 0.4rem 0.4rem; margin: 0.6rem 0; }
+  .section-title { font-size: 0.85rem; }
+  .field label { font-size: 0.65rem; }
+  .field input, .field select { font-size: 0.75rem; padding: 0.2rem 0.5rem; }
+  .output-summary { font-size: 0.7rem; padding: 0.3rem 0.5rem; }
+  .output-block { padding: 0.3rem 0.5rem; }
+  .output-block .flex-wrap { gap: 0.2rem 0.4rem; }
+  .output-block .flex-wrap strong { font-size: 0.75rem; }
+  .copy-area-section .flex-wrap { flex-wrap: wrap; gap: 0.3rem; }
+  .copy-area-section input { width: 60px; }
+  .float-tip { font-size: 0.55rem; padding: 1px 4px; }
+  .combination-result .value { font-size: 0.75rem; }
+  .guide-toggle { font-size: 0.85rem; padding: 0.4rem; }
+  .guide-dropdown { font-size: 0.8rem; padding: 0.6rem; }
+  .detail-toggle { font-size: 0.6rem; padding: 0.1rem 0.5rem; }
+  .detail-content { font-size: 0.7rem; padding: 0.4rem; }
+  .tag { font-size: 0.65rem; padding: 0.1rem 0.5rem; }
+  .collapse-arrow { font-size: 0.9rem; }
+}
   </style>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>

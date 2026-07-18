@@ -1836,7 +1836,11 @@ document.getElementById('screenshotBtn').addEventListener('click', function() {
   const originalText = btn.textContent;
   btn.textContent = ' 生成中...';
   btn.disabled = true;
-  
+
+  // 截图前强制居中
+outputArea.style.display = 'block';
+outputArea.style.margin = '0 auto';
+outputArea.style.width = '100%';
   // 用 html2canvas 截图
   html2canvas(outputArea, {
     scale: 2,

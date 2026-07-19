@@ -641,12 +641,12 @@
     {name:"福特 GT", chips:"344", start:48, nitro:33, type:"竞速"},
     {name:"逐浪", chips:"466", start:47, nitro:27, type:"干扰"},
     {name:"丰田 GR SUPRA", chips:"344", start:32, nitro:32, type:"干扰"},
-    {name:"清规·浩然", chips:"466", start:33, nitro:33, type:"干扰"},
+    {name:"", chips:"466", start:33, nitro:33, type:"干扰"},
     {name:"阿斯顿马丁 Valkyrie AMR Pro", chips:"466", start:26, nitro:26, type:"竞速"},
   ];
 
   const nickMap = {
-    "御剑飞行":"清规·浩然","牛魔王":"丰田 GR SUPRA","比亚迪汉":"比亚迪 汉","大G":"梅赛德斯-AMG G 63","茶船":"茶韵行者","地狱猫":"道奇 Charger SRT Hellcat",
+    "御剑飞行":"","牛魔王":"丰田 GR SUPRA","比亚迪汉":"比亚迪 汉","大G":"梅赛德斯-AMG G 63","茶船":"茶韵行者","地狱猫":"道奇 Charger SRT Hellcat",
     "小老虎":"摇尾萌萌虎","红马丁":"阿斯顿马丁 Vanquish","小飞机":"福特 Focus RS","拉法":"法拉利 LaFerrari",
     "肥皂":"英菲尼迪 Prototype","塞纳":"迈凯伦 Senna","gtr":"日产 GT-R NISMO","GTR":"日产 GT-R NISMO",
     "梅奔":"梅赛德斯-AMG GT Black Series","洞洞奔":"梅赛德斯-AMG GT Black Series","洞奔":"梅赛德斯-AMG GT Black Series",
@@ -1462,16 +1462,14 @@ document.querySelectorAll('.dyn-float-tip').forEach(el => {
       el.style.display = 'none';
     }
   });
-  const name = document.getElementById('vehicleSelect').value;
-    const fixed = vehicleFixedCharge[name] || 0;
-    document.querySelectorAll('.dyn-fixed').forEach(el => {
+  document.querySelectorAll('.dyn-fixed').forEach(el => {
         const n = parseInt(el.dataset.n);
-        if (name === '清规·浩然') {
+        if (name === '清规浩然') {
             el.value = (n % 4 === 0) ? 30 : 0;
         } else {
-            el.value = fixed;
+            el.value = fixed;  // ✅ 直接使用已存在的 fixed
         }
-    });  
+    });
 }
   document.getElementById('copyAreasBtn').addEventListener('click', function() {
     const target = parseInt(document.getElementById('copyToTarget').value) || 10;

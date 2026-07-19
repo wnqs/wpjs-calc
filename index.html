@@ -381,6 +381,7 @@
   <ul>
     <li>原先计算器界面代码有点乱，不好改，就放那留个纪念吧，这个计算器底层逻辑完全符合王牌，不走捷径，界面相对简单一点，方便后续维护</li>
     <li><span style="color:#ff4444;font-weight:bold;">注意：先机、汇能、团魂为空时会自动计算对应数据，只要有数据填入就会带入计算</li>
+    <li>本计算器可以模拟王牌95%实战计算需求，你可以理解只会计算到你复制的那个大招为止</li>
     <li>有些固定充能我已经默认填入了，不需要手动更改，浮动充能类似于迈凯伦 Senna 的每秒自充能2%或者循环装置的13%能量，都需要手动选择或填入具体数值才行</li>
     <li>后续使用逻辑会持续优化</li>
     <li>有任何使用该网站和游戏内芯片上的问题都可以私信我，全网同名：<span style="color:#ff4444;font-weight:bold;">@勿念情伤</li>
@@ -415,7 +416,12 @@
         <div class="field"><label>是否猎芯</label><select id="liexin"><option value="yes">是</option><option value="no">否</option></select></div>
         <div class="field"><label>充能效率%（首大）</label><input type="number" id="effFirst" step="1"  value="0"></div>
         <div class="field"><label>氮气配置</label><select id="nitroConfig"><option value="3x2">3x2</option><option value="1x5">1x5</option><option value="2x2">2x2</option></select></div>
-        <div class="field"><label>氮气数量（首大）</label><input type="number" id="nitroCountFirst" step="1" min="0" max="8" value="0"></div>
+        <div class="field"><label>氮气数量（首大）</label><div style="display:flex;align-items:center;gap:8px;">
+  <input type="range" id="nitroCountFirst" min="0" max="6" value="0" step="1" 
+         style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+         oninput="document.getElementById('nitroCountFirstDisplay').textContent=this.value">
+  <span id="nitroCountFirstDisplay" style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+</div></div>
         <div class="field"><label>车辆起步额外充能%</label><input type="text" id="startExtra" readonly></div>
         <div class="field">
   <label>车辆浮动充能%（首大）</label>
@@ -425,8 +431,18 @@
         <div class="field"><label>主赋能</label><select id="mainEnerg"><option value="none">无</option><option value="refuse">拒绝溢出</option><option value="resurge">复苏</option></select></div>
         <div class="field"><label>次赋能</label><select id="subEnerg"><option value="none">无</option><option value="queYi">缺一</option><option value="rhythm">节奏</option><option value="future">未来</option><option value="huaxinfeng">花信风</option><option value="energyRec">能源回收</option></select></div>
         <div class="field"><label>缺一档位</label><select id="queYiGear"><option value="0.8">0.8%</option><option value="1.2">1.2%</option><option value="2.0">2.0%</option></select></div>
-        <div class="field" style="display:none;"><label>缺一秒数（首大）</label><input type="number" id="queYiSecFirst" step="1" min="0" max="10" value="0"></div>
-        <div class="field" style="display:none;"><label>节奏次数（首大）</label><input type="number" id="rhythmCountFirst" step="1" min="0" max="4" value="0"></div>
+        <div class="field" style="display:none;"><label>缺一秒数（首大）</label><div style="display:flex;align-items:center;gap:8px;">
+  <input type="range" id="queYiSecFirst" min="0" max="15" value="0" step="1" 
+         style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+         oninput="document.getElementById('queYiSecFirstDisplay').textContent=this.value">
+  <span id="queYiSecFirstDisplay" style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+</div></div>
+        <div class="field" style="display:none;"><label>节奏次数（首大）</label><div style="display:flex;align-items:center;gap:8px;">
+  <input type="range" id="rhythmCountFirst" min="0" max="4" value="0" step="1" 
+         style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+         oninput="document.getElementById('rhythmCountFirstDisplay').textContent=this.value">
+  <span id="rhythmCountFirstDisplay" style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+</div></div>
         <div class="field"><label>辅助核心</label><select id="assistCore"><option value="off">关</option><option value="on">开</option></select></div>
         <div class="field"><label>团魂% <span class="text-small">(空则计算)</span></label><input type="number" id="tuanHun" step="1" min="0" value="0" placeholder="自动"></div>
         <div class="field"><label>辅助充能%（首大）</label><input type="number" id="assistFirst" step="1" min="0" value="0"></div>
@@ -445,15 +461,28 @@
     <div class="calc-area" id="areaSecond" style="margin-top:0.5rem;">
       <div class="grid-2col">
         <div class="field"><label>充能效率%（二大）</label><input type="number" id="effSecond" step="1"  value="0"></div>
-        <div class="field"><label>氮气数量（二大）</label><input type="number" id="nitroCountSecond" step="1" min="0" max="10" value="0"></div>
+        <div class="field"><label>氮气数量（二大）</label><div style="display:flex;align-items:center;gap:8px;">
+  <input type="range" id="nitroCountSecond" min="0" max="10" value="0" step="1" 
+         style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+         oninput="document.getElementById('nitroCountSecondDisplay').textContent=this.value">
+  <span id="nitroCountSecondDisplay" style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+</div></div>
         <div class="field"><label>车辆固定充能%（二大）</label><input type="text" id="fixedSecond" readonly value="0"></div>
         <div class="field">
   <label>车辆浮动充能%（二大）</label>
   <input type="number" id="floatSecond" step="0.1" min="0" value="0" data-step="1">
   <span id="floatTipSecond" class="float-tip"></span> 
 </div>
-        <div class="field" style="display:none;"><label>缺一秒数（二大）</label><input type="number" id="queYiSecSecond" step="1" min="0" max="15" value="0"></div>
-        <div class="field" style="display:none;"><label>节奏次数（二大）</label><input type="number" id="rhythmCountSecond" step="1" min="0" max="4" value="0"></div>
+        <div class="field" style="display:none;"><label>缺一秒数（二大）</label><input type="range" id="queYiSecSecond" min="0" max="15" value="0" step="1" 
+           style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+           oninput="document.getElementById('queYiSecSecondDisplay').textContent=this.value">
+    <span id="queYiSecSecondDisplay" style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+  </div></div>
+        <div class="field" style="display:none;"><label>节奏次数（二大）</label><input type="range" id="rhythmCountSecond" min="0" max="4" value="0" step="1" 
+           style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+           oninput="document.getElementById('rhythmCountSecondDisplay').textContent=this.value">
+    <span id="rhythmCountSecondDisplay" style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+  </div></div>
         <div class="field"><label>辅助充能%（二大）</label><input type="number" id="assistSecond" step="1" min="0" value="0"></div>
       </div>
     </div>
@@ -470,15 +499,28 @@
     <div class="calc-area" id="areaThird" style="margin-top:0.5rem;">
       <div class="grid-2col">
         <div class="field"><label>充能效率%（三大）</label><input type="number" id="effThird" step="1"  value="0"></div>
-        <div class="field"><label>氮气数量（三大）</label><input type="number" id="nitroCountThird" step="1" min="0" max="10" value="0"></div>
+        <div class="field"><label>氮气数量（三大）</label><div style="display:flex;align-items:center;gap:8px;">
+  <input type="range" id="nitroCountSecond" min="0" max="10" value="0" step="1" 
+         style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+         oninput="document.getElementById('nitroCountSecondDisplay').textContent=this.value">
+  <span id="nitroCountSecondDisplay" style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+</div></div>
         <div class="field"><label>车辆固定充能%（三大）</label><input type="text" id="fixedThird" readonly value="0"></div>
         <div class="field">
   <label>车辆浮动充能%（三大）</label>
   <input type="number" id="floatThird" step="0.1" min="0" value="0" data-step="1">
   <span id="floatTipThird" class="float-tip"></span>  <!-- 必须有这个 -->
 </div>
-        <div class="field" style="display:none;"><label>缺一秒数（三大）</label><input type="number" id="queYiSecThird" step="1" min="0" max="15" value="0"></div>
-        <div class="field" style="display:none;"><label>节奏次数（三大）</label><input type="number" id="rhythmCountThird" step="1" min="0" max="4" value="0"></div>
+        <div class="field" style="display:none;"><label>缺一秒数（三大）</label><input type="range" id="queYiSecThird" min="0" max="15" value="0" step="1" 
+           style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+           oninput="document.getElementById('queYiSecThirdDisplay').textContent=this.value">
+    <span id="queYiSecThirdDisplay" style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+  </div></div>
+        <div class="field" style="display:none;"><label>节奏次数（三大）</label><input type="range" id="rhythmCountThird" min="0" max="4" value="0" step="1" 
+           style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+           oninput="document.getElementById('rhythmCountThirdDisplay').textContent=this.value">
+    <span id="rhythmCountThirdDisplay" style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+  </div></div>
         <div class="field"><label>辅助充能%（三大）</label><input type="number" id="assistThird" step="1" min="0" value="0"></div>
       </div>
     </div>
@@ -1228,15 +1270,31 @@ document.querySelectorAll('.dyn-float-tip').forEach(el => {
         <div class="section-title">${label}开启前计算区域 <span class="badge">复制</span></div>
         <div class="grid-2col">
           <div class="field"><label>充能效率%（${label}）</label><input type="number" class="dyn-eff" step="1"  value="${defaultEff}" data-n="${n}"></div>
-          <div class="field"><label>氮气数量（${label}）</label><input type="number" class="dyn-nitroCount" step="1" min="0" max="10" value="0" data-n="${n}"></div>
+          <div class="field">
+  <label>氮气数量（${label}）</label>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <input type="range" class="dyn-nitroCount" min="0" max="10" value="0" step="1" data-n="${n}"
+           style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+           oninput="this.nextElementSibling.textContent=this.value">
+    <span style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+  </div>
+</div>
           <div class="field"><label>车辆固定充能%（${label}）</label><input type="text" class="dyn-fixed" readonly value="0" data-n="${n}"></div>
           <div class="field">
   <label>车辆浮动充能%（${label}）</label>
   <input type="number" class="dyn-float" step="0.1" min="0" value="0" data-n="${n}" data-step="1">
   <span class="float-tip dyn-float-tip" data-n="${n}"></span>  <!-- 必须有这个 -->
 </div>
-          <div class="field" ${queYiStyle}><label>缺一秒数（${label}）</label><input type="number" class="dyn-queYiSec" step="1" min="0" max="15" value="0" data-n="${n}"></div>
-          <div class="field" ${rhythmStyle}><label>节奏次数（${label}）</label><input type="number" class="dyn-rhythmCount" step="1" min="0" max="4" value="0" data-n="${n}"></div>
+          <div class="field" ${queYiStyle}><label>缺一秒数（${label}）</label><input type="range" class="dyn-queYiSec" min="0" max="15" value="0" step="1" data-n="${n}"
+           style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+           oninput="this.nextElementSibling.textContent=this.value">
+    <span style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+  </div></div>
+          <div class="field" ${rhythmStyle}><label>节奏次数（${label}）</label><input type="range" class="dyn-rhythmCount" min="0" max="4" value="0" step="1" data-n="${n}"
+           style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+           oninput="this.nextElementSibling.textContent=this.value">
+    <span style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+  </div></div>
           <div class="field" ${assistFieldStyle}><label>辅助充能%（${label}）</label><input type="number" class="dyn-assist" step="1" min="0" value="0" data-n="${n}"></div>
         </div>
       </div>

@@ -459,7 +459,15 @@
 </div></div>
         <div class="field"><label>辅助核心</label><select id="assistCore"><option value="off">关</option><option value="on">开</option></select></div>
         <div class="field"><label>团魂% <span class="text-small">(空则计算)</span></label><input type="number" id="tuanHun" step="1" min="0" value="0" placeholder="自动"></div>
-        <div class="field"><label>辅助充能%（首大）</label><input type="number" id="assistFirst" step="1" min="0" value="0"></div>
+        <div class="field">
+  <label>辅助充能%（首大）</label>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <input type="range" id="assistFirst" min="0" max="100" value="0" step="1" 
+           style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+           oninput="document.getElementById('assistFirstDisplay').textContent=this.value">
+    <span id="assistFirstDisplay" style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+  </div>
+</div>
       </div>
     </div>
   </div>
@@ -497,7 +505,15 @@
            oninput="document.getElementById('rhythmCountSecondDisplay').textContent=this.value">
     <span id="rhythmCountSecondDisplay" style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
   </div></div>
-        <div class="field"><label>辅助充能%（二大）</label><input type="number" id="assistSecond" step="1" min="0" value="0"></div>
+        <div class="field">
+  <label>辅助充能%（二大）</label>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <input type="range" id="assistSecond" min="0" max="100" value="0" step="1" 
+           style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+           oninput="document.getElementById('assistSecondDisplay').textContent=this.value">
+    <span id="assistSecondDisplay" style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+  </div>
+</div>
       </div>
     </div>
   </div>
@@ -535,7 +551,15 @@
            oninput="document.getElementById('rhythmCountThirdDisplay').textContent=this.value">
     <span id="rhythmCountThirdDisplay" style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
   </div></div>
-        <div class="field"><label>辅助充能%（三大）</label><input type="number" id="assistThird" step="1" min="0" value="0"></div>
+        <div class="field">
+  <label>辅助充能%（三大）</label>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <input type="range" id="assistThird" min="0" max="100" value="0" step="1" 
+           style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+           oninput="document.getElementById('assistThirdDisplay').textContent=this.value">
+    <span id="assistThirdDisplay" style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+  </div>
+</div>
       </div>
     </div>
   </div>
@@ -1474,7 +1498,15 @@ document.querySelectorAll('.dyn-float-tip').forEach(el => {
            oninput="this.nextElementSibling.textContent=this.value">
     <span style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
   </div></div>
-          <div class="field" ${assistFieldStyle}><label>辅助充能%（${label}）</label><input type="number" class="dyn-assist" step="1" min="0" value="0" data-n="${n}"></div>
+          <div class="field">
+  <label>辅助充能%（${label}）</label>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <input type="range" class="dyn-assist" min="0" max="100" value="0" step="1" 
+           style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+           oninput="this.nextElementSibling.textContent=this.value">
+    <span style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+  </div>
+</div>
         </div>
       </div>
     `;

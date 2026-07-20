@@ -816,8 +816,17 @@
     const { diamondCount, subSlots } = parseChips(chipsStr);
     if (xianNeeded > 30) return false;
 
-    const is918 = chipsStr === '446' && document.getElementById('vehicleSelect').value === '保时捷 918 Spyder';
-    const mult = is918 ? 1.5 : 1.0;
+    const multVehicles = [
+    '保时捷 918 Spyder',
+    '空间漫游虎',
+    '穿梭师',
+    '刹那',
+    '宝马 M8 GTE',
+    '梅赛德斯-奔驰 Silver Arrow'
+  ];
+  const vehicleName = document.getElementById('vehicleSelect').value;
+  const isMultVehicle = multVehicles.includes(vehicleName);
+  const mult = isMultVehicle ? 1.5 : 1.0;
 
     const maxHui = diamondCount * 9 * mult + subSlots * 3 * mult;
     const maxTuan = diamondCount * 36 * mult + subSlots * 12 * mult;
@@ -1788,8 +1797,19 @@ const floatTipAll = {
   const isAssist = v.type === '辅助';
   const chipsStr = v.chips;
   const { diamondCount, subSlots } = parseChips(chipsStr);
-  const is918 = vehicleName === '保时捷 918 Spyder';
-  const mult = is918 ? 1.5 : 1.0;
+  const multVehicles = [
+  '保时捷 918 Spyder',
+  '布加迪 Bolide',
+  '迈凯伦 Senna',
+  '空间漫游虎',
+  '穿梭师',
+  '刹那',
+  '宝马 M8 GTE',
+  '梅赛德斯-奔驰 Silver Arrow'
+];
+const vehicleName = document.getElementById('vehicleSelect').value;
+const isMultVehicle = multVehicles.includes(vehicleName);
+const mult = isMultVehicle ? 1.5 : 1.0;
   const maxHui = diamondCount * 9 * mult + subSlots * 3 * mult;
   const maxXian = 30;
 

@@ -398,7 +398,7 @@
 <!-- 车辆搜索 -->
 <div class="search-section">
   <label>车辆搜索</label>
-  <input type="text" id="vehicleSearchInput" placeholder="输入中文名/拼音/简称...">
+  <input type="text" id="vehicleSearchInput" placeholder="输入车辆名/简称...">
   <select id="vehicleSelect"></select>
   <span class="tag" id="vehicleChips">芯片槽: -</span>
 </div>
@@ -650,10 +650,26 @@
     {name:"丰田 GR SUPRA", chips:"344", start:32, nitro:32, type:"干扰"},
     {name:"清规·浩然", chips:"466", start:33, nitro:33, type:"干扰"},
     {name:"阿斯顿马丁 Valkyrie AMR Pro", chips:"466", start:26, nitro:26, type:"竞速"},
+    {name:"逍遥", chips:"446", start:18, nitro:18, type:"竞速"},
+    {name:"光天使", chips:"466", start:26, nitro:26, type:"竞速"},
+    {name:"兰博基尼 Sesto Elemento", chips:"346", start:26, nitro:26, type:"竞速"},
+    {name:"真的好马", chips:"344", start:26, nitro:26, type:"竞速"},
+    {name:"逐风青骥", chips:"334", start:36, nitro:36, type:"竞速"},
+    {name:"兰博基尼 Revuelto", chips:"344", start:30, nitro:30, type:"竞速"},
+    {name:"", chips:"", start:, nitro:, type:"竞速"},
+    {name:"", chips:"", start:, nitro:, type:"竞速"},
+    {name:"", chips:"", start:, nitro:, type:"竞速"},
+    {name:"", chips:"", start:, nitro:, type:"竞速"},
+    {name:"", chips:"", start:, nitro:, type:"竞速"},
+    {name:"", chips:"", start:, nitro:, type:"竞速"},
+    {name:"", chips:"", start:, nitro:, type:"竞速"},
+    {name:"", chips:"", start:, nitro:, type:"竞速"},
+    {name:"", chips:"", start:, nitro:, type:"竞速"},
+    {name:"", chips:"", start:, nitro:, type:"竞速"},
   ];
 
   const nickMap = {
-    "御剑飞行":"清规·浩然","牛魔王":"丰田 GR SUPRA","比亚迪汉":"比亚迪 汉","大G":"梅赛德斯-AMG G 63","茶船":"茶韵行者","地狱猫":"道奇 Charger SRT Hellcat",
+    "第六元素":"兰博基尼 Sesto Elemento","御剑飞行":"清规·浩然","牛魔王":"丰田 GR SUPRA","比亚迪汉":"比亚迪 汉","大G":"梅赛德斯-AMG G 63","茶船":"茶韵行者","地狱猫":"道奇 Charger SRT Hellcat",
     "小老虎":"摇尾萌萌虎","红马丁":"阿斯顿马丁 Vanquish","小飞机":"福特 Focus RS","拉法":"法拉利 LaFerrari",
     "肥皂":"英菲尼迪 Prototype","塞纳":"迈凯伦 Senna","gtr":"日产 GT-R NISMO","GTR":"日产 GT-R NISMO",
     "梅奔":"梅赛德斯-AMG GT Black Series","洞洞奔":"梅赛德斯-AMG GT Black Series","洞奔":"梅赛德斯-AMG GT Black Series",
@@ -662,7 +678,7 @@
   };
 
   const specialFirstEnergy = {"爱玛造梦师":70,"本田 Civic Type R":95,"布加迪 Bolide":75,"猫眠梦":70,"道奇 Charger SRT Hellcat":70,"特异点":70,"MINI JCW":70,"五菱宏光 MINI EV":70,"雪佛兰 Camaro ZL1":72,"乐道L60":85,"法拉利 LaFerrari":70,"终极·异形":50,"法拉利 812 Competizione":30,"保时捷 935":50,"蔚来ET9":90,"影豹R·ABT联名版":50};
-  const startExtraMap = {"梅赛德斯-AMG GT Black Series":33,"兰博基尼 Veneno":20,"阿斯顿马丁 Valkyrie AMR Pro":20,"柯尼塞格 One:1":20,"MINI JCW":20,"兰博基尼 Huracán STO":25,"踏雪白驹":50,"保时捷 918 Spyder":15};
+  const startExtraMap = {"梅赛德斯-AMG GT Black Series":33,"兰博基尼 Veneno":20,"阿斯顿马丁 Valkyrie AMR Pro":20,"柯尼塞格 One:1":20,"MINI JCW":20,"兰博基尼 Huracán STO":25,"踏雪白驹":50,"保时捷 918 Spyder":15,"逍遥":20,"光天使":100,"兰博基尼 Revuelto":15};
   const vehicleFixedCharge = {"比亚迪 汉":15,"极狐阿尔法S全新HI版":15,"梅赛德斯-AMG G 63":8,"踏雪白驹":40,"蔚来 EP9":20,"圣骑士":22,"玛莎拉蒂 Alfieri":37,"禅":24,"讴歌 NSX":100};
 
   function getNitroRatio(nitroType) {
@@ -1125,7 +1141,10 @@ const floatTipAfterFirst = {
   "张飞": "耐久≤50%时每秒自充能1.6%",
   "梅赛德斯-AMG GT Black Series": "每次经过圈自充能15%",
   "布加迪 Bolide": "每次使用SP自充能6%",
-  "丰田 Corolla Sprinter Trueno GT Apex": "大招期间：·处于漂移过程中时每秒自充能6%\n·若大招期间未碰撞，则结束时自充能33%",
+  "奥迪 RS 6 Avant": "首次使用大招后提升4%充能效率",
+  "丰田 Corolla Sprinter Trueno GT Apex": "大招期间：·处于漂移过程中时每秒自充能6%<br>·若大招期间未碰撞，则结束时自充能33%",
+  "真的好马": "大招期间：若处于美术马形态，则为全部队友提供30%大招能量",
+  "逐风青骥": "大招期间：·每次超越敌方车辆时使友方全体充能效率提升2%",
 };
 
 const floatTipAll = {
@@ -1440,6 +1459,10 @@ document.querySelectorAll('.dyn-float-tip').forEach(el => {
     "张飞": "耐久≤50%时每秒自充能1.6%",
     "梅赛德斯-AMG GT Black Series": "每次经过圈自充能15%",
     "布加迪 Bolide": "每次使用SP自充能6%",
+    "奥迪 RS 6 Avant": "首次使用大招后提升4%充能效率，请手动添加",
+    "丰田 Corolla Sprinter Trueno GT Apex": "大招期间：·处于漂移过程中时每秒自充能6%<br>·若大招期间未碰撞，则结束时自充能33%",
+    "真的好马": "大招期间：若处于美术马形态，则为全部队友提供30%大招能量",
+    "逐风青骥": "大招期间：·每次超越敌方车辆时使友方全体充能效率提升2%",
   };
   const floatTipAll = {
     "五菱宏光 MINI EV": "每次点击小喷自充能1%",

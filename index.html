@@ -1437,7 +1437,6 @@ document.querySelectorAll('.dyn-float-tip').forEach(el => {
   const dynamicContainer = document.getElementById('dynamicAreasContainer');
 
   function generateAreaHTML(n) {
-  // 数字转中文（扩展到30）
   function numberToChinese(num) {
     const chineseMap = {
       0: '零', 1: '一', 2: '二', 3: '三', 4: '四',
@@ -1451,68 +1450,79 @@ document.querySelectorAll('.dyn-float-tip').forEach(el => {
     return chineseMap[n] || n + '';
   }
 
-  // n 是数字，直接用 numberToChinese 转换
   const label = n === 4 ? '四大' : numberToChinese(n) + '大';
-    const vehicleName = document.getElementById('vehicleSelect').value;
-    const v = vehicleList.find(x => x.name === vehicleName);
-    const isAssist = v ? v.type === '辅助' : false;
-    const assistFieldStyle = isAssist ? 'style="display:none;"' : '';
-    const defaultEff = document.getElementById('mainEnerg').value === 'refuse' ? 5 : 0;
-    
-    const subVal = document.getElementById('subEnerg').value;
-    const isQueYi = subVal === 'queYi';
-    const isRhythm = subVal === 'rhythm';
-    const queYiStyle = isQueYi ? '' : 'style="display:none;"';
-    const rhythmStyle = isRhythm ? '' : 'style="display:none;"';
-    
-    return `
-      <div class="calc-area" id="areaDynamic_${n}" data-area="${n}">
-        <div class="area-actions">
-          <button class="btn-sm btn-danger delete-area-btn" data-area="${n}">删除</button>
+  const vehicleName = document.getElementById('vehicleSelect').value;
+  const v = vehicleList.find(x => x.name === vehicleName);
+  const isAssist = v ? v.type === '辅助' : false;
+  const assistFieldStyle = isAssist ? 'style="display:none;"' : '';
+  const defaultEff = parseFloat(document.getElementById('effFirst').value) || 0;
+  
+  const subVal = document.getElementById('subEnerg').value;
+  const isQueYi = subVal === 'queYi';
+  const isRhythm = subVal === 'rhythm';
+  const queYiStyle = isQueYi ? '' : 'style="display:none;"';
+  const rhythmStyle = isRhythm ? '' : 'style="display:none;"';
+  
+  return `
+    <div class="calc-area" id="areaDynamic_${n}" data-area="${n}">
+      <div class="area-actions">
+        <button class="btn-sm btn-danger delete-area-btn" data-area="${n}">删除</button>
+      </div>
+      <div class="section-title">${label}开启前计算区域 <span class="badge">复制</span></div>
+      <div class="grid-2col">
+        <div class="field"><label>充能效率%（${label}）</label><input type="number" class="dyn-eff" step="1" value="${defaultEff}" data-n="${n}"></div>
+        
+        <div class="field">
+          <label>氮气数量（${label}）</label>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <input type="range" class="dyn-nitroCount" min="0" max="10" value="0" step="1" data-n="${n}"
+                   style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+                   oninput="this.nextElementSibling.textContent=this.value">
+            <span style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+          </div>
         </div>
-        <div class="section-title">${label}开启前计算区域 <span class="badge">复制</span></div>
-        <div class="grid-2col">
-          <div class="field"><label>充能效率%（${label}）</label><input type="number" class="dyn-eff" step="1"  value="${defaultEff}" data-n="${n}"></div>
-          <div class="field">
-  <label>氮气数量（${label}）</label>
-  <div style="display:flex;align-items:center;gap:8px;">
-    <input type="range" class="dyn-nitroCount" min="0" max="10" value="0" step="1" data-n="${n}"
-           style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
-           oninput="this.nextElementSibling.textContent=this.value">
-    <span style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
-  </div>
-</div>
-          <div class="field"><label>车辆固定充能%（${label}）</label><input type="text" class="dyn-fixed" readonly value="0" data-n="${n}"></div>
-          <div class="field">
-  <label>车辆浮动充能%（${label}）</label>
-  <input type="number" class="dyn-float" step="0.1" min="0" value="0" data-n="${n}" data-step="1">
-  <span class="float-tip dyn-float-tip" data-n="${n}"></span>  <!-- 必须有这个 -->
-</div>
-          <div class="field" ${queYiStyle}><label>缺一秒数（${label}）</label><input type="range" class="dyn-queYiSec" min="0" max="15" value="0" step="1" data-n="${n}"
-           style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
-           oninput="this.nextElementSibling.textContent=this.value">
-    <span style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
-  </div></div>
-          <div class="field" ${rhythmStyle}><label>节奏次数（${label}）</label><input type="range" class="dyn-rhythmCount" min="0" max="4" value="0" step="1" data-n="${n}"
-           style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
-           oninput="this.nextElementSibling.textContent=this.value">
-    <span style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
-  </div></div>
-          <div class="field" ${assistFieldStyle}>
-  <label>辅助充能%（${label}）</label>
-  <div style="display:flex;align-items:center;gap:8px;">
-    <input type="range" class="dyn-assist" min="0" max="100" value="0" step="1" 
-           style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
-           oninput="this.nextElementSibling.textContent=this.value">
-    <span style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
-  </div>
-</div>
+        
+        <div class="field"><label>车辆固定充能%（${label}）</label><input type="text" class="dyn-fixed" readonly value="0" data-n="${n}"></div>
+        
+        <div class="field">
+          <label>车辆浮动充能%（${label}）</label>
+          <input type="number" class="dyn-float" step="0.1" min="0" value="0" data-n="${n}" data-step="1">
+          <span class="float-tip dyn-float-tip" data-n="${n}"></span>
+        </div>
+        
+        <div class="field" ${queYiStyle}>
+          <label>缺一秒数（${label}）</label>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <input type="range" class="dyn-queYiSec" min="0" max="15" value="0" step="1" data-n="${n}"
+                   style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+                   oninput="this.nextElementSibling.textContent=this.value">
+            <span style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+          </div>
+        </div>
+        
+        <div class="field" ${rhythmStyle}>
+          <label>节奏次数（${label}）</label>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <input type="range" class="dyn-rhythmCount" min="0" max="4" value="0" step="1" data-n="${n}"
+                   style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+                   oninput="this.nextElementSibling.textContent=this.value">
+            <span style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+          </div>
+        </div>
+        
+        <div class="field" ${assistFieldStyle}>
+          <label>辅助充能%（${label}）</label>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <input type="range" class="dyn-assist" min="0" max="100" value="0" step="1"
+                   style="flex:1;accent-color:#f5c542;height:6px;border-radius:3px;background:#2d3557;"
+                   oninput="this.nextElementSibling.textContent=this.value">
+            <span style="min-width:28px;text-align:center;color:#f5c542;font-weight:700;background:#1a213a;padding:2px 8px;border-radius:30px;font-size:0.9rem;">0</span>
+          </div>
         </div>
       </div>
-       </div>
-      </div>
-    `;
-  }
+    </div>
+  `;
+}
 
   function attachDeleteEvents() {
     document.querySelectorAll('.delete-area-btn').forEach(btn => {

@@ -681,10 +681,35 @@
     {name:"醒觉之羽", chips:"344", start:27, nitro:27, type:"竞速"},
     {name:"捷豹 F-TYPE SVR Convertible", chips:"346", start:26, nitro:26, type:"竞速"},
     {name:"招财福鼠", chips:"346", start:27, nitro:27, type:"竞速"},
+    {name:"莱肯 HyperSport", chips:"366", start:25, nitro:25, type:"干扰"},
+    {name:"饿龙传说", chips:"466", start:33, nitro:33, type:"干扰"},
+    {name:"梅赛德斯-奔驰 Biome", chips:"346", start:29, nitro:29, type:"干扰"},
+    {name:"赵云", chips:"344", start:28, nitro:28, type:"竞速"},
+    {name:"萌星凯蒂", chips:"346", start:27, nitro:27, type:"竞速"},
+    {name:"凯蒂号", chips:"446", start:25, nitro:25, type:"竞速"},
+    {name:"兰博基尼 Aventador SVJ", chips:"446", start:25, nitro:25, type:"竞速"},
+    {name:"黑魔龙", chips:"346", start:30, nitro:30, type:"干扰"},
+    {name:"超音速", chips:"466", start:30, nitro:30, type:"干扰"},
+    {name:"奥迪 R8 Spyder V10", chips:"346", start:33, nitro:33, type:"竞速"},
+    {name:"宙斯", chips:"446", start:30, nitro:30, type:"竞速"},
+    {name:"比亚迪 海豹", chips:"346", start:26, nitro:46, type:"干扰"},
+    {name:"鹤羽", chips:"344", start:25, nitro:25, type:"竞速"},
+    {name:"路虎 Range Rover Evoque", chips:"346", start:30, nitro:30, type:"干扰"},
+    {name:"烛龙", chips:"446", start:29, nitro:29, type:"干扰"},
+    {name:"雪佛兰 Corvette ZR1", chips:"346", start:30, nitro:30, type:"干扰"},
+    {name:"月宫圣使", chips:"466", start:26, nitro:26, type:"干扰"},
+    {name:"绿箭骑士", chips:"346", start:27, nitro:27, type:"干扰"},
+    {name:"春风 450SR", chips:"346", start:32, nitro:32, type:"竞速"},
+    {name:"寒霜冰魄", chips:"466", start:28, nitro:28, type:"干扰"},
+    {name:"洛基", chips:"466", start:31, nitro:31, type:"干扰"},
+    {name:"极狐 GT", chips:"346", start:25, nitro:25, type:"竞速"},
+    {name:"承重钢轮", chips:"334", start:29, nitro:29, type:"干扰"},
+    {name:"王牌方程式", chips:"4466", start:27, nitro:27, type:"竞速"},
+    {name:"开拓铁铲", chips:"334", start:27, nitro:27, type:"干扰"},
   ];
 
   const nickMap = {
-    "道奇蝰蛇":"道奇 Viper ACR","浴缸":"泡泡旅行者","墙建犯":"保时捷 Panamera Turbo S","帕拉梅拉":"保时捷 Panamera Turbo S","红牛":"兰博基尼 Aventador J","购物车":"大买特买号","电保时捷":"保时捷 Taycan Turbo S","第六元素":"兰博基尼 Sesto Elemento","御剑飞行":"清规·浩然","牛魔王":"丰田 GR SUPRA","比亚迪汉":"比亚迪 汉","大G":"梅赛德斯-AMG G 63","茶船":"茶韵行者","地狱猫":"道奇 Charger SRT Hellcat",
+    "铲车":"开拓铁铲","压路机":"承重钢轮","摩托车":"春风 450SR","摩托车":"绿箭骑士","兔子":"月宫圣使","科尔维特":"雪佛兰 Corvette ZR1","克尔维特":"雪佛兰 Corvette ZR1","紫路虎":"路虎 Range Rover Evoque","河鱼":"鹤羽","大牛":"兰博基尼 Aventador SVJ","电奔":"梅赛德斯-奔驰 Biome","道奇蝰蛇":"道奇 Viper ACR","浴缸":"泡泡旅行者","墙建犯":"保时捷 Panamera Turbo S","帕拉梅拉":"保时捷 Panamera Turbo S","红牛":"兰博基尼 Aventador J","购物车":"大买特买号","电保时捷":"保时捷 Taycan Turbo S","第六元素":"兰博基尼 Sesto Elemento","御剑飞行":"清规·浩然","牛魔王":"丰田 GR SUPRA","比亚迪汉":"比亚迪 汉","大G":"梅赛德斯-AMG G 63","茶船":"茶韵行者","地狱猫":"道奇 Charger SRT Hellcat",
     "小老虎":"摇尾萌萌虎","红马丁":"阿斯顿马丁 Vanquish","小飞机":"福特 Focus RS","拉法":"法拉利 LaFerrari",
     "肥皂":"英菲尼迪 Prototype","塞纳":"迈凯伦 Senna","gtr":"日产 GT-R NISMO","GTR":"日产 GT-R NISMO",
     "梅奔":"梅赛德斯-AMG GT Black Series","洞洞奔":"梅赛德斯-AMG GT Black Series","洞奔":"梅赛德斯-AMG GT Black Series",
@@ -692,8 +717,8 @@
     "布加迪飞火流星":"布加迪 Bolide","女武神":"阿斯顿马丁 Valkyrie AMR Pro","布加迪威龙":"布加迪 Veyron","byd":"比亚迪 汉","sto":"兰博基尼 Huracán STO"
   };
 
-  const specialFirstEnergy = {"爱玛造梦师":70,"本田 Civic Type R":95,"布加迪 Bolide":75,"猫眠梦":70,"道奇 Charger SRT Hellcat":70,"特异点":70,"MINI JCW":70,"五菱宏光 MINI EV":70,"雪佛兰 Camaro ZL1":72,"乐道L60":85,"法拉利 LaFerrari":70,"终极·异形":50,"法拉利 812 Competizione":30,"保时捷 935":50,"蔚来ET9":90,"影豹R·ABT联名版":50};
-  const startExtraMap = {"捷豹 F-TYPE SVR Convertible":15,"狂飙":15,"保时捷 911 Turbo S":100,"星穹幻音":20,"保时捷 Panamera Turbo S":15,"梅赛德斯-AMG GT Black Series":33,"兰博基尼 Veneno":20,"阿斯顿马丁 Valkyrie AMR Pro":20,"柯尼塞格 One:1":20,"MINI JCW":20,"兰博基尼 Huracán STO":25,"踏雪白驹":50,"保时捷 918 Spyder":15,"逍遥":20,"光天使":100,"兰博基尼 Revuelto":15,"宾利 Flying Spur Mulliner":40};
+  const specialFirstEnergy = {"月宫圣使":90,"爱玛造梦师":70,"本田 Civic Type R":95,"布加迪 Bolide":75,"猫眠梦":70,"道奇 Charger SRT Hellcat":70,"特异点":70,"MINI JCW":70,"五菱宏光 MINI EV":70,"雪佛兰 Camaro ZL1":72,"乐道L60":85,"法拉利 LaFerrari":70,"终极·异形":50,"法拉利 812 Competizione":30,"保时捷 935":50,"蔚来ET9":90,"影豹R·ABT联名版":50};
+  const startExtraMap = {"梅赛德斯-AMG GT Black Series":33,"兰博基尼 Veneno":20,"阿斯顿马丁 Valkyrie AMR Pro":20,"柯尼塞格 One:1":20,"MINI JCW":20,"兰博基尼 Huracán STO":25,"踏雪白驹":50,"保时捷 918 Spyder":15,"逍遥":20,"光天使":100,"兰博基尼 Revuelto":15,"宾利 Flying Spur Mulliner":40",鹤羽":20,"萌星凯蒂":20,"捷豹 F-TYPE SVR Convertible":15,"狂飙":15,"保时捷 911 Turbo S":100,"星穹幻音":20,"保时捷 Panamera Turbo S":15,"洛基":15,};
   const vehicleFixedCharge = {"比亚迪 汉":15,"极狐阿尔法S全新HI版":15,"梅赛德斯-AMG G 63":8,"踏雪白驹":40,"蔚来 EP9":20,"圣骑士":22,"玛莎拉蒂 Alfieri":37,"禅":24,"讴歌 NSX":100};
 
   function getNitroRatio(nitroType) {
@@ -1144,6 +1169,7 @@ document.getElementById('ultEnergy').value = ultValue;
 // ===== 车辆浮动充能提示 =====
 const floatTipFirstOnly = {
   "烛龙": "开局前12秒内每秒自充能3%",
+  "莱肯 HyperSport": "在开局30秒时额外获得200%大招能量",
 };
 
 const floatTipAfterFirst = {
@@ -1151,10 +1177,11 @@ const floatTipAfterFirst = {
   "王牌方程式 EVO": "开局35秒后，每秒自充能1.2%",
   "极狐阿尔法S全新HI版": "开局30秒后，每次使用氮气自充能5%",
   "梅赛德斯-AMG G 63": "开启大招后的下一个氮气自充能8%",
-  "兰博基尼 Huracán STO": "大招阶段自充能：一阶10%/二阶20%/三阶30%/四阶40%",
+  "兰博基尼 Huracán STO": "大招期间阶段自充能：一阶10%/二阶20%/三阶30%/四阶40%",
   "宝马 X5": "开局10秒后第五名及以后每秒自充能2%",
   "布加迪 Veyron": "开启大招后：敌方每次使用大招自充能5%",
-  "仰望 U9": "开启大招后：敌方每台真实阵营车辆提供14.4%",
+  "仰望U9": "开启大招后：敌方每台真实阵营车辆提供14.4%",
+  "保时捷 918 Spyder": "大招期间每次使用氮气可额外获得6%大招能量",
   "布加迪 LVN": "大招期间每2次漂移自充能6%",
   "张飞": "耐久≤50%时每秒自充能1.6%",
   "梅赛德斯-AMG GT Black Series": "每次经过圈自充能15%",
@@ -1173,6 +1200,11 @@ const floatTipAfterFirst = {
   "幻海之汐": "SP：永久提升自身2%充能效率（CD 12秒）",
   "醒觉之羽": "开局后30秒觉醒，提升自身8%充能效率<br>SP觉醒后：友方全体立即获得60%大招能量",
   "捷豹 F-TYPE SVR Convertible": "大招期间:友方全体每累计使用3次氮气自充能8%（CD 4秒）",
+  "萌星凯蒂": "开启大招时处于偶数名次每秒自充能4%<br>比赛结束倒计时开始时获得50%大招能量",
+  "凯蒂号": "开启大招若消耗了三颗极速之心则7秒内每秒自充能2%<br>每次使用氮气可获得一颗极速之心(最多同时拥有三颗),每颗极速之心提升5%充能效率",
+  "梅赛德斯-奔驰 Biome": "加速开始时获得8%大招能量<br>每进行一次干扰后有50%概率再对随机一名敌方进行干扰并获得8%大招能量",
+  "雪佛兰 Corvette ZR1": "若使用大招后10秒内没有再次使用大招，则自充能25%",
+  "极狐 GT": "开局45秒后,每次使用氮气时额外获得12%大招能量",
 };
 
 const floatTipAll = {
@@ -1186,6 +1218,11 @@ const floatTipAll = {
   "英菲尼迪 Prototype": "每次使用蓝/紫色涡轮自充能2.5%/5%",
   "阿斯顿马丁 Vanquish": "每次漂移自充能4%",
   "道奇 Viper ACR": "组队赛中若敌方未选出完美阵容,则友方全体充能效率提升12%",
+  "赵云": "开局前40秒内充能效率提升22%",
+  "兰博基尼 Aventador SVJ": "每次进入漂移获得立即生效的6%大招能量(CD 2秒)",
+  "逐浪": "每7秒获得21%大招能量",
+  "寒霜冰魄": "敌方车辆每次使用大招时，自充能6%",
+  "王牌方程式": "未处于第一名时每秒自充能1.6%",
 };
 
 // 判断显示哪个提示（首大）
@@ -1475,6 +1512,7 @@ document.querySelectorAll('.dyn-float-tip').forEach(el => {
   
   const floatTipFirstOnly = {
   "烛龙": "开局前12秒内每秒自充能3%",
+  "莱肯 HyperSport": "在开局30秒时额外获得200%大招能量",
 };
 
 const floatTipAfterFirst = {
@@ -1482,10 +1520,11 @@ const floatTipAfterFirst = {
   "王牌方程式 EVO": "开局35秒后，每秒自充能1.2%",
   "极狐阿尔法S全新HI版": "开局30秒后，每次使用氮气自充能5%",
   "梅赛德斯-AMG G 63": "开启大招后的下一个氮气自充能8%",
-  "兰博基尼 Huracán STO": "大招阶段自充能：一阶10%/二阶20%/三阶30%/四阶40%",
+  "兰博基尼 Huracán STO": "大招期间阶段自充能：一阶10%/二阶20%/三阶30%/四阶40%",
   "宝马 X5": "开局10秒后第五名及以后每秒自充能2%",
   "布加迪 Veyron": "开启大招后：敌方每次使用大招自充能5%",
-  "仰望 U9": "开启大招后：敌方每台真实阵营车辆提供14.4%",
+  "仰望U9": "开启大招后：敌方每台真实阵营车辆提供14.4%",
+  "保时捷 918 Spyder": "大招期间每次使用氮气可额外获得6%大招能量",
   "布加迪 LVN": "大招期间每2次漂移自充能6%",
   "张飞": "耐久≤50%时每秒自充能1.6%",
   "梅赛德斯-AMG GT Black Series": "每次经过圈自充能15%",
@@ -1504,6 +1543,11 @@ const floatTipAfterFirst = {
   "幻海之汐": "SP：永久提升自身2%充能效率（CD 12秒）",
   "醒觉之羽": "开局后30秒觉醒，提升自身8%充能效率<br>SP觉醒后：友方全体立即获得60%大招能量",
   "捷豹 F-TYPE SVR Convertible": "大招期间:友方全体每累计使用3次氮气自充能8%（CD 4秒）",
+  "萌星凯蒂": "开启大招时处于偶数名次每秒自充能4%<br>比赛结束倒计时开始时获得50%大招能量",
+  "凯蒂号": "开启大招若消耗了三颗极速之心则7秒内每秒自充能2%<br>每次使用氮气可获得一颗极速之心(最多同时拥有三颗),每颗极速之心提升5%充能效率",
+  "梅赛德斯-奔驰 Biome": "加速开始时获得8%大招能量<br>每进行一次干扰后有50%概率再对随机一名敌方进行干扰并获得8%大招能量",
+  "雪佛兰 Corvette ZR1": "若使用大招后10秒内没有再次使用大招，则自充能25%",
+  "极狐 GT": "开局45秒后,每次使用氮气时额外获得12%大招能量",
 };
 
 const floatTipAll = {
@@ -1517,8 +1561,12 @@ const floatTipAll = {
   "英菲尼迪 Prototype": "每次使用蓝/紫色涡轮自充能2.5%/5%",
   "阿斯顿马丁 Vanquish": "每次漂移自充能4%",
   "道奇 Viper ACR": "组队赛中若敌方未选出完美阵容,则友方全体充能效率提升12%",
+  "赵云": "开局前40秒内充能效率提升22%",
+  "兰博基尼 Aventador SVJ": "每次进入漂移获得立即生效的6%大招能量(CD 2秒)",
+  "逐浪": "每7秒获得21%大招能量",
+  "寒霜冰魄": "敌方车辆每次使用大招时，自充能6%",
+  "王牌方程式": "未处于第一名时每秒自充能1.6%",
 };
-
   
   let tipAfter = '';
   if (floatTipAfterFirst[name]) {

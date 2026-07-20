@@ -1161,10 +1161,10 @@ if (floatTipFirstOnly[name]) {
 }
 const tipFirstElement = document.getElementById('floatTip');
 if (tipFirst) {
-  tipFirstElement.textContent = tipFirst;
+  tipFirstElement.innerHTML = tipFirst;
   tipFirstElement.style.display = 'inline-block';
 } else {
-  tipFirstElement.textContent = '';
+  tipFirstElement.innerHTML = '';
   tipFirstElement.style.display = 'none';
 }
 
@@ -1178,28 +1178,28 @@ if (floatTipAfterFirst[name]) {
 // 二大
 const tipSecondElement = document.getElementById('floatTipSecond');
 if (tipAfter) {
-  tipSecondElement.textContent = tipAfter;
+  tipSecondElement.innerHTML = tipAfter;
   tipSecondElement.style.display = 'inline-block';
 } else {
-  tipSecondElement.textContent = '';
+  tipSecondElement.innerHTML = '';
   tipSecondElement.style.display = 'none';
 }
 // 三大
 const tipThirdElement = document.getElementById('floatTipThird');
 if (tipAfter) {
-  tipThirdElement.textContent = tipAfter;
+  tipThirdElement.innerHTML = tipAfter;
   tipThirdElement.style.display = 'inline-block';
 } else {
-  tipThirdElement.textContent = '';
+  tipThirdElement.innerHTML = '';
   tipThirdElement.style.display = 'none';
 }
 // 动态区域
 document.querySelectorAll('.dyn-float-tip').forEach(el => {
   if (tipAfter) {
-    el.textContent = tipAfter;
+    el.innerHTML = tipAfter;
     el.style.display = 'inline-block';
   } else {
-    el.textContent = '';
+    el.innerHTML = '';
     el.style.display = 'none';
   }
 });

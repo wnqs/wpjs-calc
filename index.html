@@ -815,7 +815,7 @@
     if (isAssist && tuanNeeded > 0) return false;
     const { diamondCount, subSlots } = parseChips(chipsStr);
     if (xianNeeded > 30) return false;
-
+const vehicleName = document.getElementById('vehicleSelect').value;
     const multVehicles = [
     '保时捷 918 Spyder',
     '空间漫游虎',
@@ -1804,6 +1804,7 @@ const floatTipAll = {
   const isAssist = v.type === '辅助';
   const chipsStr = v.chips;
   const { diamondCount, subSlots } = parseChips(chipsStr);
+  const vehicleName = document.getElementById('vehicleSelect').value;
   const multVehicles = [
   '保时捷 918 Spyder',
   '布加迪 Bolide',

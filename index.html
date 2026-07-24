@@ -1459,7 +1459,7 @@ document.querySelectorAll('.dyn-float-tip').forEach(el => {
             el.value = fixed;
         }
     });
-    // ===== 车辆图片滑动切换 =====
+   // ===== 车辆图片滑动切换 =====
 const imgContainer = document.getElementById('vehicleImageContainer');
 const vehicleImg = document.getElementById('vehicleImage');
 const skinImg = document.getElementById('skinImage');
@@ -1515,40 +1515,8 @@ function goToImage(index) {
 
 // 左右箭头切换
 prevBtn.onclick = function() { goToImage(currentIndex - 1); };
-nextBtn.onclick = function() { goToImage(currentIndex + 1); };
+nextBtn.onclick = function() { goToImage(currentIndex + 1); }; 
 }
-
-// ===== 切换函数 =====
-function updateDots(index) {
-  const dots = [dot0, dot1];
-  dots.forEach((dot, i) => {
-    if (i === index) {
-      dot.className = 'image-dot active';
-    } else {
-      dot.className = 'image-dot inactive';
-    }
-  });
-}
-
-function goToImage(index) {
-  const total = 2;
-  if (index < 0) index = total - 1;
-  if (index >= total) index = 0;
-  currentIndex = index;
-  slider.style.transform = 'translateX(-' + (index * 100) + '%)';
-  updateDots(index);
-  imageLabel.textContent = index === 0 ? '车辆原图' : (v.skin ? v.skin.name : '涂装');
-}
-
-// 点击指示点切换
-dot0.onclick = function() { goToImage(0); };
-dot1.onclick = function() { goToImage(1); };
-
-// 左右箭头切换
-prevBtn.onclick = function() { goToImage(currentIndex - 1); };
-nextBtn.onclick = function() { goToImage(currentIndex + 1); };
-      }
-
   document.getElementById('mainEnerg').addEventListener('change', function() {
   const val = this.value;
   

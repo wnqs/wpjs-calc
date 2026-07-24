@@ -398,6 +398,8 @@
       width: 28px !important;
       height: 28px !important;
       font-size: 16px !important;
+      left: -12px !important;
+      right: -12px !important;
     }
     #vehicleImageContainer .image-dot {
       width: 8px !important;
@@ -448,18 +450,11 @@
       <img id="vehicleImage" src="" alt="车辆原图" style="width:100%;flex-shrink:0;object-fit:contain;background:rgba(0,0,0,0.3);">
       <img id="skinImage" src="" alt="车辆涂装" style="width:100%;flex-shrink:0;object-fit:contain;background:rgba(0,0,0,0.3);">
     </div>
-    <!-- 左箭头 -->
-    <button id="prevImage" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:2px solid rgba(255,255,255,0.3);border-radius:50%;width:36px;height:36px;color:white;font-size:20px;cursor:pointer;display:none;z-index:10;transition:0.3s;backdrop-filter:blur(4px);" onmouseover="this.style.background='rgba(245,197,66,0.8)'" onmouseout="this.style.background='rgba(0,0,0,0.6)'">‹</button>
-    <!-- 右箭头 -->
-    <button id="nextImage" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:2px solid rgba(255,255,255,0.3);border-radius:50%;width:36px;height:36px;color:white;font-size:20px;cursor:pointer;display:none;z-index:10;transition:0.3s;backdrop-filter:blur(4px);" onmouseover="this.style.background='rgba(245,197,66,0.8)'" onmouseout="this.style.background='rgba(0,0,0,0.6)'">›</button>
-    <!-- 指示点 -->
-    <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10;">
-      <span id="dot0" class="image-dot active" style="width:12px;height:12px;border-radius:50%;background:#f5c542;cursor:pointer;transition:0.3s;box-shadow:0 0 8px rgba(245,197,66,0.4);"></span>
-      <span id="dot1" class="image-dot inactive" style="width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;transition:0.3s;"></span>
-    </div>
+    <!-- 左箭头（外移） -->
+    <button id="prevImage" style="position:absolute;left:-20px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:2px solid rgba(255,255,255,0.3);border-radius:50%;width:36px;height:36px;color:white;font-size:20px;cursor:pointer;display:none;z-index:10;transition:0.3s;backdrop-filter:blur(4px);" onmouseover="this.style.background='rgba(245,197,66,0.8)'" onmouseout="this.style.background='rgba(0,0,0,0.6)'">‹</button>
+    <!-- 右箭头（外移） -->
+    <button id="nextImage" style="position:absolute;right:-20px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:2px solid rgba(255,255,255,0.3);border-radius:50%;width:36px;height:36px;color:white;font-size:20px;cursor:pointer;display:none;z-index:10;transition:0.3s;backdrop-filter:blur(4px);" onmouseover="this.style.background='rgba(245,197,66,0.8)'" onmouseout="this.style.background='rgba(0,0,0,0.6)'">›</button>
   </div>
-  <!-- 图片标签 -->
-  <div id="imageLabel" style="text-align:center;margin-top:6px;font-size:0.8rem;color:#bcc6e6;min-height:20px;"></div>
 </div>
 
 <!-- 首大 -->
@@ -1469,11 +1464,8 @@ const imgContainer = document.getElementById('vehicleImageContainer');
 const vehicleImg = document.getElementById('vehicleImage');
 const skinImg = document.getElementById('skinImage');
 const slider = document.getElementById('imageSlider');
-const dot0 = document.getElementById('dot0');
-const dot1 = document.getElementById('dot1');
 const prevBtn = document.getElementById('prevImage');
 const nextBtn = document.getElementById('nextImage');
-const imageLabel = document.getElementById('imageLabel');
 let currentIndex = 0;
 
 const hasVehicleImg = !!v.img;
@@ -1491,35 +1483,39 @@ if (hasVehicleImg || hasSkinImg) {
   if (hasVehicleImg && hasSkinImg) {
     // 两张图：显示切换功能
     slider.style.display = 'flex';
-    dot0.style.display = 'inline-block';
-    dot1.style.display = 'inline-block';
     prevBtn.style.display = 'block';
     nextBtn.style.display = 'block';
     currentIndex = 0;
     slider.style.transform = 'translateX(0%)';
-    updateDots(0);
-    imageLabel.textContent = '车辆原图';
   } else if (hasVehicleImg) {
     // 只有原图
     slider.style.display = 'flex';
     slider.style.transform = 'translateX(0%)';
-    dot0.style.display = 'inline-block';
-    dot1.style.display = 'none';
     prevBtn.style.display = 'none';
     nextBtn.style.display = 'none';
-    imageLabel.textContent = '';
   } else if (hasSkinImg) {
     // 只有涂装
     slider.style.display = 'flex';
     slider.style.transform = 'translateX(0%)';
-    dot0.style.display = 'none';
-    dot1.style.display = 'inline-block';
     prevBtn.style.display = 'none';
     nextBtn.style.display = 'none';
-    imageLabel.textContent = (v.skin && v.skin.name) || '涂装';
   }
 } else {
   imgContainer.style.display = 'none';
+}
+
+// ===== 切换函数 =====
+function goToImage(index) {
+  const total = 2;
+  if (index < 0) index = total - 1;
+  if (index >= total) index = 0;
+  currentIndex = index;
+  slider.style.transform = 'translateX(-' + (index * 100) + '%)';
+}
+
+// 左右箭头切换
+prevBtn.onclick = function() { goToImage(currentIndex - 1); };
+nextBtn.onclick = function() { goToImage(currentIndex + 1); };
 }
 
 // ===== 切换函数 =====

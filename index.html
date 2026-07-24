@@ -784,7 +784,7 @@
   ];
 
   const nickMap = {
-    "福特野马":"福特 Mustang","失灵":"闪灵","瑞哥":"柯尼塞格 Regera","名爵":"MG6 XPOWER TC","杰哥":"柯尼塞格 Jesko","泡椒虎":"机械咆哮虎","绿皮保时捷":"保时捷 Macan S","高尔夫":"一汽-大众 GOLF GTI","道奇挑战者":"道奇 Challenger SRT 392","铲车":"开拓铁铲","压路机":"承重钢轮","摩托车":"春风 450SR","摩托车":"绿箭骑士","兔子":"月宫圣使","科尔维特":"雪佛兰 Corvette ZR1","克尔维特":"雪佛兰 Corvette ZR1","紫路虎":"路虎 Range Rover Evoque","河鱼":"鹤羽","大牛":"兰博基尼 Aventador SVJ","电奔":"梅赛德斯-奔驰 Biome","道奇蝰蛇":"道奇 Viper ACR","浴缸":"泡泡旅行者","墙建犯":"保时捷 Panamera Turbo S","帕拉梅拉":"保时捷 Panamera Turbo S","红牛":"兰博基尼 Aventador J","购物车":"大买特买号","电保时捷":"保时捷 Taycan Turbo S","第六元素":"兰博基尼 Sesto Elemento","御剑飞行":"清规·浩然","牛魔王":"丰田 GR SUPRA","比亚迪汉":"比亚迪 汉","大G":"梅赛德斯-AMG G 63","茶船":"茶韵行者","地狱猫":"道奇 Charger SRT Hellcat",
+    "月球车":"星际探路者","福特野马":"福特 Mustang","失灵":"闪灵","瑞哥":"柯尼塞格 Regera","名爵":"MG6 XPOWER TC","杰哥":"柯尼塞格 Jesko","泡椒虎":"机械咆哮虎","绿皮保时捷":"保时捷 Macan S","高尔夫":"一汽-大众 GOLF GTI","道奇挑战者":"道奇 Challenger SRT 392","铲车":"开拓铁铲","压路机":"承重钢轮","摩托车":"春风 450SR","摩托车":"绿箭骑士","兔子":"月宫圣使","科尔维特":"雪佛兰 Corvette ZR1","克尔维特":"雪佛兰 Corvette ZR1","紫路虎":"路虎 Range Rover Evoque","河鱼":"鹤羽","大牛":"兰博基尼 Aventador SVJ","电奔":"梅赛德斯-奔驰 Biome","道奇蝰蛇":"道奇 Viper ACR","浴缸":"泡泡旅行者","墙建犯":"保时捷 Panamera Turbo S","帕拉梅拉":"保时捷 Panamera Turbo S","红牛":"兰博基尼 Aventador J","购物车":"大买特买号","电保时捷":"保时捷 Taycan Turbo S","第六元素":"兰博基尼 Sesto Elemento","御剑飞行":"清规·浩然","牛魔王":"丰田 GR SUPRA","比亚迪汉":"比亚迪 汉","大G":"梅赛德斯-AMG G 63","茶船":"茶韵行者","地狱猫":"道奇 Charger SRT Hellcat",
     "小老虎":"摇尾萌萌虎","红马丁":"阿斯顿马丁 Vanquish","小飞机":"福特 Focus RS","拉法":"法拉利 LaFerrari",
     "肥皂":"英菲尼迪 Prototype","塞纳":"迈凯伦 Senna","gtr":"日产 GT-R NISMO","GTR":"日产 GT-R NISMO",
     "梅奔":"梅赛德斯-AMG GT Black Series","洞洞奔":"梅赛德斯-AMG GT Black Series","洞奔":"梅赛德斯-AMG GT Black Series",
@@ -1217,7 +1217,9 @@ if (mainEnerg === 'resurge') floatEnerg += 12.5;
     ultValue = 90;
 }
 document.getElementById('ultEnergy').value = ultValue;
-    document.getElementById('anti').value = v.type==='辅助'?18:0;
+    const antiRange = document.getElementById('anti');
+antiRange.value = v.type === '辅助' ? 18 : 0;
+document.getElementById('antiDisplay').textContent = antiRange.value;
     document.getElementById('startExtra').value = startExtraMap[name] || 0;
     const fixed = vehicleFixedCharge[name] || 0;
     document.getElementById('fixedSecond').value = fixed;

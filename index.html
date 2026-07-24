@@ -1022,7 +1022,7 @@ if (mainEnerg === 'resurge') floatEnerg += 12.5;
         isFirst: ult.isFirst || false
       });
       const passed = res.total >= ultEnergy;
-      const surplusForNext = passed ? (res.total - ultEnergy) : 0;
+      const surplusForNext = passed ? (res.total - 100) : 0;
       results.push({
         label: ult.label,
         total: res.total,

@@ -447,18 +447,16 @@
 <!-- 车辆图片展示 -->
 <div id="vehicleImageContainer" style="display:none;margin:10px 0;padding:12px;background:rgba(18,23,41,0.4);border-radius:12px;border:1px solid rgba(255,255,255,0.05);">
   <div style="position:relative;max-width:400px;margin:0 auto;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);">
-    <!-- 滑动容器 -->
+    <!-- 滑动容器（图片由 JavaScript 动态生成） -->
     <div id="imageSlider" style="display:flex;transition:transform 0.4s ease;aspect-ratio:4/3;">
-      <img id="vehicleImage" src="" alt="车辆原图" style="width:100%;flex-shrink:0;object-fit:contain;background:rgba(0,0,0,0.3);">
-      <img id="skinImage" src="" alt="车辆涂装" style="width:100%;flex-shrink:0;object-fit:contain;background:rgba(0,0,0,0.3);">
+      <!-- 图片由 JavaScript 动态生成 -->
     </div>
-    <!-- 左箭头（外移） -->
+    <!-- 左箭头 -->
     <button id="prevImage" style="position:absolute;left:-10px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:2px solid rgba(255,255,255,0.3);border-radius:50%;width:36px;height:36px;color:white;font-size:20px;cursor:pointer;display:none;z-index:10;transition:0.3s;backdrop-filter:blur(4px);" onmouseover="this.style.background='rgba(245,197,66,0.8)'" onmouseout="this.style.background='rgba(0,0,0,0.6)'">‹</button>
-    <!-- 右箭头（外移） -->
+    <!-- 右箭头 -->
     <button id="nextImage" style="position:absolute;right:-10px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:2px solid rgba(255,255,255,0.3);border-radius:50%;width:36px;height:36px;color:white;font-size:20px;cursor:pointer;display:none;z-index:10;transition:0.3s;backdrop-filter:blur(4px);" onmouseover="this.style.background='rgba(245,197,66,0.8)'" onmouseout="this.style.background='rgba(0,0,0,0.6)'">›</button>
   </div>
 </div>
-
 <!-- 首大 -->
 <div class="calc-area-collapsible">
   <div class="collapsible-header" onclick="toggleCollapsible(this)">
@@ -714,7 +712,15 @@
     {name:"保时捷 918 Spyder", chips:"446", start:28, nitro:28, type:"竞速"},
     {name:"影豹R·ABT联名版", chips:"346", start:25, nitro:25, type:"竞速"},
     {name:"禅", chips:"366", start:26.5, nitro:26.5, type:"竞速"},
-    {name:"布加迪 Bolide", chips:"346", start:40, nitro:33, type:"竞速"},
+    {
+  name: "布加迪 Bolide",chips: "346",start: 40,nitro: 33,type: "竞速",
+  img: "https://backend.appmiaoda.com/projects/supabase316894448002838528/storage/v1/object/public/images/你的车辆原图链接.png",
+  skins: [
+    "https://backend.appmiaoda.com/projects/supabase316894448002838528/storage/v1/object/public/images/2d6d8852-d9e8-4d07-924e-7674158a3cde.png",
+    "https://backend.appmiaoda.com/projects/supabase316894448002838528/storage/v1/object/public/images/8e8e01d6-1452-4d52-b4d0-f1748b5a8b18.png",
+    "https://backend.appmiaoda.com/projects/supabase316894448002838528/storage/v1/object/public/images/d2fee2d5-c0ec-4a76-bc58-d6b43506b9af.png"
+  ]
+},
     {name:"风行者", chips:"334", start:31, nitro:31, type:"竞速"},
     {name:"迈凯伦 Senna", chips:"446", start:28, nitro:28, type:"竞速"},
     {name:"日产 GT-R NISMO", chips:"4466", start:29, nitro:29, type:"竞速"},
@@ -748,15 +754,9 @@
     {name:"魔王", chips:"466", start:34, nitro:34, type:"干扰"},
     {
   name: "丰田 GR SUPRA",
-  chips: "344",
-  start: 32,
-  nitro: 32,
-  type: "干扰",
+  chips: "344",start: 32,nitro: 32,type: "干扰",
   img: "https://backend.appmiaoda.com/projects/supabase316894448002838528/storage/v1/object/public/images/386213c3-86df-47cf-8da8-314d013a4b42.png",
-  skin: {
-    name: "星辉纪元 Supra",
-    img: "https://backend.appmiaoda.com/projects/supabase316894448002838528/storage/v1/object/public/images/7af9f806-0e7f-43d0-92cd-769c3f42da1d.png"
-  }
+  skin: {name: "星辉纪元 Supra",img: "https://backend.appmiaoda.com/projects/supabase316894448002838528/storage/v1/object/public/images/7af9f806-0e7f-43d0-92cd-769c3f42da1d.png"}
 },
     {name:"清规·浩然", chips:"466", start:33, nitro:33, type:"干扰"},
     {name:"波塞冬", chips:"446", start:28, nitro:28, type:"干扰"},
@@ -1461,64 +1461,65 @@ document.querySelectorAll('.dyn-float-tip').forEach(el => {
             el.value = fixed;
         }
     });
-   // ===== 车辆图片滑动切换 =====
-const imgContainer = document.getElementById('vehicleImageContainer');
-const vehicleImg = document.getElementById('vehicleImage');
-const skinImg = document.getElementById('skinImage');
-const slider = document.getElementById('imageSlider');
-const prevBtn = document.getElementById('prevImage');
-const nextBtn = document.getElementById('nextImage');
-let currentIndex = 0;
+   // ===== 车辆图片滑动切换（支持多张涂装） =====
+  const imgContainer = document.getElementById('vehicleImageContainer');
+  const slider = document.getElementById('imageSlider');
+  const prevBtn = document.getElementById('prevImage');
+  const nextBtn = document.getElementById('nextImage');
+  let currentIndex = 0;
+  let totalImages = 0;
 
-const hasVehicleImg = !!v.img;
-const hasSkinImg = !!(v.skin && v.skin.img);
+  // 收集所有图片
+  const images = [];
+  if (v.img) {
+    images.push(v.img);
+  }
+  if (v.skins && v.skins.length > 0) {
+    images.push(...v.skins);
+  }
 
-// 设置图片
-vehicleImg.src = v.img || '';
-vehicleImg.alt = v.name + ' 原图';
-skinImg.src = (v.skin && v.skin.img) || '';
-skinImg.alt = (v.skin && v.skin.name) || '涂装';
-
-if (hasVehicleImg || hasSkinImg) {
-  imgContainer.style.display = 'block';
-
-  if (hasVehicleImg && hasSkinImg) {
-    // 两张图：显示切换功能
+  // 清空并重新生成图片
+  slider.innerHTML = '';
+  if (images.length > 0) {
+    images.forEach((src, index) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = v.name + ' ' + (index === 0 ? '原图' : '涂装' + index);
+      img.style.cssText = 'width:100%;flex-shrink:0;object-fit:contain;background:rgba(0,0,0,0.3);';
+      slider.appendChild(img);
+    });
+    
+    totalImages = images.length;
+    imgContainer.style.display = 'block';
     slider.style.display = 'flex';
-    prevBtn.style.display = 'block';
-    nextBtn.style.display = 'block';
     currentIndex = 0;
     slider.style.transform = 'translateX(0%)';
-  } else if (hasVehicleImg) {
-    // 只有原图
-    slider.style.display = 'flex';
-    slider.style.transform = 'translateX(0%)';
-    prevBtn.style.display = 'none';
-    nextBtn.style.display = 'none';
-  } else if (hasSkinImg) {
-    // 只有涂装
-    slider.style.display = 'flex';
-    slider.style.transform = 'translateX(0%)';
-    prevBtn.style.display = 'none';
-    nextBtn.style.display = 'none';
+    
+    if (totalImages > 1) {
+      prevBtn.style.display = 'block';
+      nextBtn.style.display = 'block';
+    } else {
+      prevBtn.style.display = 'none';
+      nextBtn.style.display = 'none';
+    }
+  } else {
+    imgContainer.style.display = 'none';
   }
-} else {
-  imgContainer.style.display = 'none';
+
+  // ===== 切换函数 =====
+  function goToImage(index) {
+    if (totalImages <= 1) return;
+    if (index < 0) index = totalImages - 1;
+    if (index >= totalImages) index = 0;
+    currentIndex = index;
+    slider.style.transform = 'translateX(-' + (index * 100) + '%)';
+  }
+
+  // 左右箭头切换
+  prevBtn.onclick = function() { goToImage(currentIndex - 1); };
+  nextBtn.onclick = function() { goToImage(currentIndex + 1); };
 }
 
-// ===== 切换函数 =====
-function goToImage(index) {
-  const total = 2;
-  if (index < 0) index = total - 1;
-  if (index >= total) index = 0;
-  currentIndex = index;
-  slider.style.transform = 'translateX(-' + (index * 100) + '%)';
-}
-
-// 左右箭头切换
-prevBtn.onclick = function() { goToImage(currentIndex - 1); };
-nextBtn.onclick = function() { goToImage(currentIndex + 1); }; 
-}
   document.getElementById('mainEnerg').addEventListener('change', function() {
   const val = this.value;
   

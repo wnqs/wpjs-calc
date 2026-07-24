@@ -364,6 +364,26 @@
   .tag { font-size: 0.65rem; padding: 0.1rem 0.5rem; }
   .collapse-arrow { font-size: 0.9rem; }
 }
+    /* 车辆图片自适应 */
+  #vehicleImage {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    max-height: 200px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+    object-fit: contain;
+  }
+
+  @media (max-width: 500px) {
+    #vehicleImage {
+      max-height: 120px;
+    }
+    #vehicleImageContainer {
+      padding: 8px;
+      margin: 6px 0;
+    }
+  }
     @media (max-width: 480px) {
             select, input {
                 width: 100% !important;
@@ -403,6 +423,10 @@
   <select id="vehicleSelect"></select>
   <span class="tag" id="vehicleChips">芯片槽: -</span>
 </div>
+<!-- 车辆图片展示 -->
+<div id="vehicleImageContainer" style="display:none;text-align:center;margin:10px 0;padding:12px;background:rgba(18,23,41,0.4);border-radius:12px;border:1px solid rgba(255,255,255,0.05);">
+  <img id="vehicleImage" src="" alt="车辆图片" style="max-width:100%;width:auto;height:auto;max-height:200px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);object-fit:contain;">
+</div>  
 
 <!-- 首大 -->
 <div class="calc-area-collapsible">
@@ -639,7 +663,7 @@
     {name:"平行巡洋舰", chips:"334", start:37, nitro:37, type:"辅助"},
     {name:"腾势N7", chips:"346", start:41, nitro:41, type:"辅助"},
     {name:"团子", chips:"346", start:40, nitro:40, type:"辅助"},
-    {name:"星际探路者", chips:"346", start:40, nitro:40, type:"辅助"},
+    {name:"星际探路者", chips:"346", start:40, nitro:40, type:"辅助", img:"https://backend.appmiaoda.com/projects/supabase316894448002838528/storage/v1/object/public/images/cc688942-047b-49a6-9e69-996a780f6d3b.png"},
     {name:"以太", chips:"346", start:40, nitro:40, type:"辅助"},
     {name:"游龙惊鸿", chips:"466", start:48, nitro:38, type:"辅助"},
     {name:"MINI JCW", chips:"334", start:35, nitro:35, type:"辅助"},
@@ -691,7 +715,7 @@
     {name:"雪佛兰 Corvette C8", chips:"344", start:29, nitro:29, type:"竞速"},
     {name:"逐浪", chips:"466", start:47, nitro:27, type:"干扰"},
     {name:"魔王", chips:"466", start:34, nitro:34, type:"干扰"},
-    {name:"丰田 GR SUPRA", chips:"344", start:32, nitro:32, type:"干扰"},
+    {name:"丰田 GR SUPRA", chips:"344", start:32, nitro:32, type:"干扰", img:"https://backend.appmiaoda.com/projects/supabase316894448002838528/storage/v1/object/public/images/386213c3-86df-47cf-8da8-314d013a4b42.png"},
     {name:"清规·浩然", chips:"466", start:33, nitro:33, type:"干扰"},
     {name:"波塞冬", chips:"446", start:28, nitro:28, type:"干扰"},
     {name:"王牌方程式 EVO", chips:"346", start:32, nitro:32, type:"干扰"},
@@ -1394,7 +1418,17 @@ document.querySelectorAll('.dyn-float-tip').forEach(el => {
         } else {
             el.value = fixed;
         }
-    });   
+    });
+    // ===== 显示车辆图片 =====
+const imgContainer = document.getElementById('vehicleImageContainer');
+const imgElement = document.getElementById('vehicleImage');
+if (v.img) {
+  imgElement.src = v.img;
+  imgElement.alt = v.name;
+  imgContainer.style.display = 'block';
+} else {
+  imgContainer.style.display = 'none';
+}
       }
 
   document.getElementById('mainEnerg').addEventListener('change', function() {

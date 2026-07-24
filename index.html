@@ -364,32 +364,49 @@
   .tag { font-size: 0.65rem; padding: 0.1rem 0.5rem; }
   .collapse-arrow { font-size: 0.9rem; }
 }
-    /* 车辆图片自适应 */
-  #vehicleImage {
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    max-height: 200px;
-    border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.08);
-    object-fit: contain;
-  }
-
-  @media (max-width: 500px) {
-    #vehicleImage {
-      max-height: 120px;
-    }
-    #vehicleImageContainer {
-      padding: 8px;
-      margin: 6px 0;
-    }
-  }
     @media (max-width: 480px) {
             select, input {
                 width: 100% !important;
                 box-sizing: border-box;
             }
         }
+    /* 图片滑动 */
+  .image-dot {
+    transition: all 0.3s ease;
+  }
+  .image-dot.active {
+    background: #f5c542;
+    box-shadow: 0 0 12px rgba(245,197,66,0.5);
+  }
+  .image-dot.inactive {
+    background: rgba(255,255,255,0.4);
+  }
+  .image-dot.inactive:hover {
+    background: rgba(255,255,255,0.7);
+  }
+
+  #vehicleImageContainer button {
+    user-select: none;
+  }
+
+  @media (max-width: 500px) {
+    #vehicleImageContainer {
+      padding: 8px;
+      margin: 6px 0;
+    }
+    #vehicleImageContainer button {
+      width: 28px !important;
+      height: 28px !important;
+      font-size: 16px !important;
+    }
+    #vehicleImageContainer .image-dot {
+      width: 8px !important;
+      height: 8px !important;
+    }
+    #imageLabel {
+      font-size: 0.65rem !important;
+    }
+  }
   </style>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
@@ -424,9 +441,26 @@
   <span class="tag" id="vehicleChips">芯片槽: -</span>
 </div>
 <!-- 车辆图片展示 -->
-<div id="vehicleImageContainer" style="display:none;text-align:center;margin:10px 0;padding:12px;background:rgba(18,23,41,0.4);border-radius:12px;border:1px solid rgba(255,255,255,0.05);">
-  <img id="vehicleImage" src="" alt="车辆图片" style="max-width:100%;width:auto;height:auto;max-height:200px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);object-fit:contain;">
-</div>  
+<div id="vehicleImageContainer" style="display:none;margin:10px 0;padding:12px;background:rgba(18,23,41,0.4);border-radius:12px;border:1px solid rgba(255,255,255,0.05);">
+  <div style="position:relative;max-width:400px;margin:0 auto;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);">
+    <!-- 滑动容器 -->
+    <div id="imageSlider" style="display:flex;transition:transform 0.4s ease;aspect-ratio:4/3;">
+      <img id="vehicleImage" src="" alt="车辆原图" style="width:100%;flex-shrink:0;object-fit:contain;background:rgba(0,0,0,0.3);">
+      <img id="skinImage" src="" alt="车辆涂装" style="width:100%;flex-shrink:0;object-fit:contain;background:rgba(0,0,0,0.3);">
+    </div>
+    <!-- 左箭头 -->
+    <button id="prevImage" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:2px solid rgba(255,255,255,0.3);border-radius:50%;width:36px;height:36px;color:white;font-size:20px;cursor:pointer;display:none;z-index:10;transition:0.3s;backdrop-filter:blur(4px);" onmouseover="this.style.background='rgba(245,197,66,0.8)'" onmouseout="this.style.background='rgba(0,0,0,0.6)'">‹</button>
+    <!-- 右箭头 -->
+    <button id="nextImage" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:2px solid rgba(255,255,255,0.3);border-radius:50%;width:36px;height:36px;color:white;font-size:20px;cursor:pointer;display:none;z-index:10;transition:0.3s;backdrop-filter:blur(4px);" onmouseover="this.style.background='rgba(245,197,66,0.8)'" onmouseout="this.style.background='rgba(0,0,0,0.6)'">›</button>
+    <!-- 指示点 -->
+    <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10;">
+      <span id="dot0" class="image-dot active" style="width:12px;height:12px;border-radius:50%;background:#f5c542;cursor:pointer;transition:0.3s;box-shadow:0 0 8px rgba(245,197,66,0.4);"></span>
+      <span id="dot1" class="image-dot inactive" style="width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;transition:0.3s;"></span>
+    </div>
+  </div>
+  <!-- 图片标签 -->
+  <div id="imageLabel" style="text-align:center;margin-top:6px;font-size:0.8rem;color:#bcc6e6;min-height:20px;"></div>
+</div>
 
 <!-- 首大 -->
 <div class="calc-area-collapsible">
@@ -715,7 +749,18 @@
     {name:"雪佛兰 Corvette C8", chips:"344", start:29, nitro:29, type:"竞速"},
     {name:"逐浪", chips:"466", start:47, nitro:27, type:"干扰"},
     {name:"魔王", chips:"466", start:34, nitro:34, type:"干扰"},
-    {name:"丰田 GR SUPRA", chips:"344", start:32, nitro:32, type:"干扰", img:"https://backend.appmiaoda.com/projects/supabase316894448002838528/storage/v1/object/public/images/386213c3-86df-47cf-8da8-314d013a4b42.png"},
+    {
+  name: "丰田 GR SUPRA",
+  chips: "344",
+  start: 32,
+  nitro: 32,
+  type: "干扰",
+  img: "https://backend.appmiaoda.com/projects/supabase316894448002838528/storage/v1/object/public/images/386213c3-86df-47cf-8da8-314d013a4b42.png",
+  skin: {
+    name: "星辉纪元 Supra",
+    img: "https://backend.appmiaoda.com/projects/supabase316894448002838528/storage/v1/object/public/images/7af9f806-0e7f-43d0-92cd-769c3f42da1d.png"
+  }
+}
     {name:"清规·浩然", chips:"466", start:33, nitro:33, type:"干扰"},
     {name:"波塞冬", chips:"446", start:28, nitro:28, type:"干扰"},
     {name:"王牌方程式 EVO", chips:"346", start:32, nitro:32, type:"干扰"},
@@ -1419,16 +1464,93 @@ document.querySelectorAll('.dyn-float-tip').forEach(el => {
             el.value = fixed;
         }
     });
-    // ===== 显示车辆图片 =====
+    // ===== 车辆图片滑动切换 =====
 const imgContainer = document.getElementById('vehicleImageContainer');
-const imgElement = document.getElementById('vehicleImage');
-if (v.img) {
-  imgElement.src = v.img;
-  imgElement.alt = v.name;
+const vehicleImg = document.getElementById('vehicleImage');
+const skinImg = document.getElementById('skinImage');
+const slider = document.getElementById('imageSlider');
+const dot0 = document.getElementById('dot0');
+const dot1 = document.getElementById('dot1');
+const prevBtn = document.getElementById('prevImage');
+const nextBtn = document.getElementById('nextImage');
+const imageLabel = document.getElementById('imageLabel');
+let currentIndex = 0;
+
+const hasVehicleImg = !!v.img;
+const hasSkinImg = !!(v.skin && v.skin.img);
+
+// 设置图片
+vehicleImg.src = v.img || '';
+vehicleImg.alt = v.name + ' 原图';
+skinImg.src = (v.skin && v.skin.img) || '';
+skinImg.alt = (v.skin && v.skin.name) || '涂装';
+
+if (hasVehicleImg || hasSkinImg) {
   imgContainer.style.display = 'block';
+
+  if (hasVehicleImg && hasSkinImg) {
+    // 两张图：显示切换功能
+    slider.style.display = 'flex';
+    dot0.style.display = 'inline-block';
+    dot1.style.display = 'inline-block';
+    prevBtn.style.display = 'block';
+    nextBtn.style.display = 'block';
+    currentIndex = 0;
+    slider.style.transform = 'translateX(0%)';
+    updateDots(0);
+    imageLabel.textContent = '车辆原图';
+  } else if (hasVehicleImg) {
+    // 只有原图
+    slider.style.display = 'flex';
+    slider.style.transform = 'translateX(0%)';
+    dot0.style.display = 'inline-block';
+    dot1.style.display = 'none';
+    prevBtn.style.display = 'none';
+    nextBtn.style.display = 'none';
+    imageLabel.textContent = '';
+  } else if (hasSkinImg) {
+    // 只有涂装
+    slider.style.display = 'flex';
+    slider.style.transform = 'translateX(0%)';
+    dot0.style.display = 'none';
+    dot1.style.display = 'inline-block';
+    prevBtn.style.display = 'none';
+    nextBtn.style.display = 'none';
+    imageLabel.textContent = (v.skin && v.skin.name) || '涂装';
+  }
 } else {
   imgContainer.style.display = 'none';
 }
+
+// ===== 切换函数 =====
+function updateDots(index) {
+  const dots = [dot0, dot1];
+  dots.forEach((dot, i) => {
+    if (i === index) {
+      dot.className = 'image-dot active';
+    } else {
+      dot.className = 'image-dot inactive';
+    }
+  });
+}
+
+function goToImage(index) {
+  const total = 2;
+  if (index < 0) index = total - 1;
+  if (index >= total) index = 0;
+  currentIndex = index;
+  slider.style.transform = 'translateX(-' + (index * 100) + '%)';
+  updateDots(index);
+  imageLabel.textContent = index === 0 ? '车辆原图' : (v.skin ? v.skin.name : '涂装');
+}
+
+// 点击指示点切换
+dot0.onclick = function() { goToImage(0); };
+dot1.onclick = function() { goToImage(1); };
+
+// 左右箭头切换
+prevBtn.onclick = function() { goToImage(currentIndex - 1); };
+nextBtn.onclick = function() { goToImage(currentIndex + 1); };
       }
 
   document.getElementById('mainEnerg').addEventListener('change', function() {
